@@ -1,0 +1,3825 @@
+/* Reset y estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 60px);
+  margin-top: 60px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+  width: 100%;
+  background: #f8f9fa;
+  min-width: 0;
+}
+
+/* En desktop, dejar espacio para el sidebar */
+@media (min-width: 769px) {
+  .main-content {
+    margin-left: 260px;
+    width: calc(100% - 260px); /* Asegurar que use todo el espacio disponible */
+  }
+}
+
+/* Breakpoints responsivos más específicos */
+/* Extra Small - Móviles pequeños */
+@media (min-width: 320px) {
+  .main-content {
+    padding: 10px;
+  }
+}
+
+/* Small (sm) - Móviles grandes */  
+@media (min-width: 576px) {
+  .main-content {
+    padding: 15px;
+  }
+}
+
+/* Medium (md) - Tablets */
+@media (min-width: 768px) {
+  .main-content {
+    margin-left: 260px;
+    padding: 20px;
+    min-height: calc(100vh - 70px);
+  }
+}
+
+/* Large (lg) - Desktop pequeño */
+@media (min-width: 992px) {
+  .main-content {
+    padding: 25px;
+  }
+}
+
+/* Extra Large (xl) - Desktop grande */
+@media (min-width: 1200px) {
+  .main-content {
+    padding: 30px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 290px;
+  }
+}
+
+/* Ultra Wide - Pantallas muy grandes */
+@media (min-width: 1600px) {
+  .main-content {
+    max-width: 1600px;
+    padding: 40px;
+    padding-left: 320px;
+  }
+}
+
+/* Componentes de UI ultra responsivos */
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  margin-bottom: 15px;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Breakpoints para cards */
+@media (min-width: 576px) {
+  .card {
+    padding: 16px;
+    margin-bottom: 18px;
+  }
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card {
+    padding: 24px;
+    margin-bottom: 25px;
+  }
+}
+
+/* Botones ultra responsivos */
+.btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  min-width: auto;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 576px) {
+  .btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 768px) {
+  .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .btn {
+    padding: 12px 24px;
+    font-size: 15px;
+  }
+}
+
+.btn:hover {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  background: #6c757d;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+}
+
+.btn-success {
+  background: #28a745;
+}
+
+.btn-success:hover {
+  background: #1e7e34;
+}
+
+.btn-warning {
+  background: #ffc107;
+  color: #212529;
+}
+
+.btn-warning:hover {
+  background: #e0a800;
+}
+
+/* Tabla ultra responsiva con breakpoints específicos */
+.turnos-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 16px;
+  overflow: hidden;
+  table-layout: auto;
+}
+
+.turnos-tabla th,
+.turnos-tabla td {
+  padding: 12px 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word;
+  vertical-align: top;
+  font-size: 16px;
+}
+
+.turnos-tabla th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #495057;
+  font-size: 17px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.turnos-tabla tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Breakpoints para tablas */
+@media (min-width: 480px) {
+  .turnos-tabla {
+    font-size: 17px;
+    margin-top: 12px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 14px 10px;
+    font-size: 17px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 576px) {
+  .turnos-tabla {
+    font-size: 18px;
+    margin-top: 15px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 15px 12px;
+    font-size: 18px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 19px;
+  }
+}
+
+@media (min-width: 768px) {
+  .turnos-tabla {
+    font-size: 19px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 16px 14px;
+    font-size: 19px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 20px;
+  }
+  
+  .unidad-info {
+    min-width: 320px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .turnos-tabla {
+    font-size: 20px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 18px 16px;
+    font-size: 20px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 21px;
+  }
+  
+  .unidad-info {
+    min-width: 350px;
+  }
+}
+
+/* Optimización para tabla de gestión - todo en una línea */
+.gestion-vacaciones .turnos-tabla,
+.gestion-colaboradores .turnos-tabla {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.gestion-vacaciones .turnos-tabla th,
+.gestion-vacaciones .turnos-tabla td,
+.gestion-colaboradores .turnos-tabla th,
+.gestion-colaboradores .turnos-tabla td {
+  padding: 6px 8px;
+  font-size: 13px;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.gestion-vacaciones .turnos-tabla th,
+.gestion-colaboradores .turnos-tabla th {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Contenedor de tabla con scroll inteligente */
+.table-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  border-radius: 0 0 8px 8px;
+  width: 100%;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Tabla simple para Dashboard */
+.turnos-tabla.simple {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 14px;
+}
+
+.turnos-tabla.simple th {
+  background: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 10px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.turnos-tabla.simple td {
+  padding: 10px;
+  border-bottom: 1px solid #e9ecef;
+  color: #495057;
+  font-size: 14px;
+}
+
+.turnos-tabla.simple tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Estilos para colaboradores de vacaciones */
+.colaborador-vacaciones {
+  background-color: #fff3cd !important;
+  opacity: 0.8;
+}
+
+.colaborador-vacaciones:hover {
+  background-color: #ffeaa7 !important;
+}
+
+/* Texto de reemplazo */
+.reemplazo-text {
+  color: #007bff;
+  font-style: italic;
+  margin-left: 5px;
+}
+
+/* Badges modernos y simples */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.badge-activo {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.badge-vacaciones {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.badge-reemplazo {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.badge-fijo {
+  background-color: #e2e3e5;
+  color: #383d41;
+  border: 1px solid #d6d8db;
+}
+}
+
+.table-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Móvil - tabla completamente adaptable */
+@media (max-width: 479px) {
+  .table-container {
+    border-radius: 0;
+  }
+  
+  .turnos-tabla {
+    min-width: 500px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    white-space: nowrap;
+    min-width: 80px;
+  }
+  
+  .turnos-tabla th:first-child,
+  .turnos-tabla td:first-child {
+    min-width: 120px;
+    position: sticky;
+    left: 0;
+    background-color: white;
+    z-index: 5;
+  }
+  
+  .turnos-tabla th:first-child {
+    background-color: #f8f9fa;
+    z-index: 15;
+  }
+}
+
+/* Tablets en orientación portrait */
+@media (min-width: 480px) and (max-width: 767px) {
+  .turnos-tabla {
+    min-width: 100%;
+  }
+}
+
+/* Niveles de turnos ultra responsivos */
+.nivel-section {
+  margin-bottom: 15px;
+}
+
+@media (min-width: 576px) {
+  .nivel-section {
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .nivel-section {
+    margin-bottom: 25px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .nivel-section {
+    margin-bottom: 30px;
+  }
+}
+
+.nivel-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 10px 12px;
+  border-radius: 8px 8px 0 0;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (min-width: 480px) {
+  .nivel-header {
+    font-size: 15px;
+    padding: 12px 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .nivel-header {
+    padding: 15px 20px;
+    font-size: 16px;
+    text-align: left;
+  }
+}
+
+@media (min-width: 1200px) {
+  .nivel-header {
+    padding: 18px 24px;
+    font-size: 18px;
+  }
+}
+
+.nivel-content {
+  background: white;
+  border: 1px solid #dee2e6;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+
+/* Indicadores de estado */
+.estado-vacaciones {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.estado-reemplazo {
+  color: #fd7e14;
+  font-weight: bold;
+}
+
+.estado-normal {
+  color: #28a745;
+}
+
+/* Formularios ultra responsivos */
+.form-group {
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+@media (min-width: 576px) {
+  .form-group {
+    margin-bottom: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .form-group {
+    margin-bottom: 18px;
+  }
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: #495057;
+  font-size: 12px;
+}
+
+@media (min-width: 576px) {
+  .form-group label {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+}
+
+@media (min-width: 768px) {
+  .form-group label {
+    font-size: 14px;
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 12px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+@media (min-width: 480px) {
+  .form-control {
+    font-size: 13px;
+    padding: 9px 11px;
+  }
+}
+
+@media (min-width: 768px) {
+  .form-control {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .form-control {
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
+}
+
+/* Grid ultra responsivo con más breakpoints */
+.grid-responsive {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 480px) {
+  .grid-responsive {
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+@media (min-width: 576px) {
+  .grid-responsive {
+    gap: 15px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .grid-responsive {
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (min-width: 992px) {
+  .grid-responsive {
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .grid-responsive {
+    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* Flexbox ultra responsivo */
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (min-width: 480px) {
+  .flex-responsive {
+    gap: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .flex-responsive {
+    flex-direction: row;
+    gap: 15px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 1200px) {
+  .flex-responsive {
+    gap: 20px;
+  }
+}
+
+/* Modal ultra responsivo */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 8px;
+}
+
+@media (min-width: 576px) {
+  .modal-overlay {
+    padding: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-overlay {
+    padding: 20px;
+  }
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 400px;
+  max-height: 95vh;
+  overflow-y: auto;
+  margin: 0;
+}
+
+@media (min-width: 480px) {
+  .modal-content {
+    max-width: 450px;
+    max-height: 90vh;
+  }
+}
+
+@media (min-width: 576px) {
+  .modal-content {
+    max-width: 500px;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal-content {
+    max-width: 600px;
+    max-height: 85vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  .modal-content {
+    max-width: 700px;
+  }
+}
+
+/* Componentes específicos ultra responsivos */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 100%;
+}
+
+.loading-spinner {
+  text-align: center;
+  color: #666;
+}
+
+.loading-spinner svg {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Componentes específicos ultra responsivos */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+@media (min-width: 320px) {
+  .stats-grid {
+    gap: 10px;
+  }
+}
+
+@media (min-width: 480px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+@media (min-width: 576px) {
+  .stats-grid {
+    gap: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+  }
+}
+
+@media (min-width: 992px) {
+  .stats-grid {
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+  }
+}
+
+/* Títulos ultra responsivos */
+h1 {
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 15px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+h3 {
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+@media (min-width: 480px) {
+  h1 {
+    font-size: 18px;
+  }
+  
+  h2 {
+    font-size: 17px;
+    margin-bottom: 15px;
+  }
+  
+  h3 {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 576px) {
+  h1 {
+    font-size: 20px;
+  }
+  
+  h2 {
+    font-size: 18px;
+  }
+  
+  h3 {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 22px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    margin-bottom: 18px;
+  }
+  
+  h3 {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1200px) {
+  h1 {
+    font-size: 24px;
+  }
+  
+  h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  h3 {
+    font-size: 18px;
+  }
+}
+
+/* Botones de acción ultra responsivos */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: stretch;
+}
+
+@media (min-width: 480px) {
+  .action-buttons {
+    gap: 6px;
+  }
+}
+
+@media (min-width: 768px) {
+  .action-buttons {
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1200px) {
+  .action-buttons {
+    gap: 10px;
+  }
+}
+
+/* Clases utilitarias para diferentes tamaños */
+@media (max-width: 479px) {
+  .hide-xs { display: none !important; }
+}
+
+@media (max-width: 575px) {
+  .hide-sm { display: none !important; }
+}
+
+@media (max-width: 767px) {
+  .hide-md { display: none !important; }
+}
+
+@media (max-width: 991px) {
+  .hide-lg { display: none !important; }
+}
+
+@media (max-width: 1199px) {
+  .hide-xl { display: none !important; }
+}
+
+/* Mostrar solo en tamaños específicos */
+@media (min-width: 480px) {
+  .show-xs { display: none !important; }
+}
+
+@media (min-width: 576px) {
+  .show-sm { display: none !important; }
+}
+
+@media (min-width: 768px) {
+  .show-md { display: none !important; }
+}
+
+@media (min-width: 992px) {
+  .show-lg { display: none !important; }
+}
+
+@media (min-width: 1200px) {
+  .show-xl { display: none !important; }
+}
+
+/* Textos responsivos */
+.text-xs { font-size: 10px; }
+.text-sm { font-size: 12px; }
+.text-md { font-size: 14px; }
+.text-lg { font-size: 16px; }
+.text-xl { font-size: 18px; }
+
+/* Espaciado responsivo */
+.p-xs { padding: 4px; }
+.p-sm { padding: 8px; }
+.p-md { padding: 12px; }
+.p-lg { padding: 16px; }
+.p-xl { padding: 20px; }
+
+.m-xs { margin: 4px; }
+.m-sm { margin: 8px; }
+.m-md { margin: 12px; }
+.m-lg { margin: 16px; }
+.m-xl { margin: 20px; }
+
+/* Containers fluidos */
+.container-fluid {
+  width: 100%;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 576px) {
+  .container-fluid {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-fluid {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container-fluid {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-fluid {
+    max-width: 1320px;
+  }
+}
+
+/* Estilos específicos para Turnos Actuales */
+.turnos-actuales-container {
+  width: 100%;
+  max-width: 100%;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rotacion-info {
+  margin: 8px 0;
+}
+
+.rotacion-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.rango-semana {
+  font-size: 11px;
+  color: #666;
+  font-style: italic;
+}
+
+.reemplazo-indicator {
+  margin-top: 4px;
+  color: #ff9800;
+  font-style: italic;
+}
+
+.estado-reemplazo {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  color: white;
+}
+
+/* Responsive para badges de rotación */
+@media (max-width: 768px) {
+  .rotacion-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+}
+
+/* Header moderno y responsivo */
+.turnos-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 25px 40px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.turnos-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.turnos-title h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.turnos-stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.stat-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-badge.activos { border-left: 4px solid #4caf50; }
+.stat-badge.vacaciones { border-left: 4px solid #ff9800; }
+.stat-badge.total { border-left: 4px solid #2196f3; }
+
+/* Filtros interactivos */
+.filtros-container {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.filtro-grupo {
+  flex: 1;
+  min-width: 300px;
+  margin-bottom: 15px;
+}
+
+.filtro-busqueda, .filtro-nivel {
+  width: 100%;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.filtro-busqueda:focus, .filtro-nivel:focus {
+  outline: none;
+  background: white;
+  transform: scale(1.02);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+/* Secciones de nivel mejoradas */
+.nivel-section.activo {
+  margin-bottom: 25px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nivel-section.activo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.nivel-header.moderno {
+  padding: 22px 30px;
+  border: none;
+}
+
+.nivel-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nivel-icon {
+  font-size: 20px;
+}
+
+.nivel-nombre {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.nivel-contador {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Tabla moderna y responsiva */
+.turnos-tabla.moderna {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  table-layout: auto;
+}
+
+.turnos-tabla.moderna th {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px 30px;
+  font-weight: 600;
+  color: #495057;
+  font-size: 15px;
+  border-bottom: 2px solid #dee2e6;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.fila-colaborador {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.fila-colaborador:hover {
+  background: linear-gradient(135deg, #f8f9ff 0%, #f0f8ff 100%);
+  transform: scale(1.01);
+}
+
+.fila-colaborador td {
+  padding: 20px 30px;
+  vertical-align: middle;
+}
+
+/* Elementos de información */
+.colaborador-nombre strong {
+  color: #2c3e50;
+  font-size: 18px;
+}
+
+.unidad-badge {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  color: #1565c0;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.telefono-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.telefono-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Columna de unidad para todas las tablas */
+.unidad-info {
+  min-width: 280px;
+  white-space: nowrap;
+}
+
+/* Estados modernos */
+.estado-badge.moderno {
+  padding: 10px 16px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.estado-badge.moderno:hover {
+  transform: scale(1.05);
+}
+
+.estado-activo {
+  background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+  color: #2e7d32;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.estado-vacaciones {
+  background: linear-gradient(135deg, #ffecb3 0%, #ffe082 100%);
+  color: #f57c00;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+}
+
+/* Estilos para la sección de vacaciones */
+.vacaciones-section {
+  margin-bottom: 30px;
+  border: 2px solid #ff9800;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(255, 152, 0, 0.2);
+}
+
+.vacaciones-section .turnos-tabla {
+  font-size: 17px;
+}
+
+.vacaciones-section .turnos-tabla th,
+.vacaciones-section .turnos-tabla td {
+  padding: 16px 12px;
+  font-size: 17px;
+  min-width: 120px;
+}
+
+.vacaciones-section .turnos-tabla th {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Columnas específicas de vacaciones */
+.vacaciones-section .colaborador-info {
+  min-width: 180px;
+}
+
+.vacaciones-section .unidad-info {
+  min-width: 350px;
+  white-space: nowrap;
+}
+
+.vacaciones-section .telefono-info {
+  min-width: 140px;
+}
+
+.vacaciones-section .periodo-vacaciones {
+  min-width: 120px;
+}
+
+.vacaciones-section .estado-info {
+  min-width: 120px;
+}
+
+/* Centrar específicamente la columna de Vacaciones */
+.vacaciones-header-centered {
+  text-align: center !important;
+}
+
+/* Asegurar que todos los encabezados de la tabla de vacaciones estén centrados */
+.vacaciones-section .turnos-tabla th {
+  text-align: center !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  padding: 12px 8px !important;
+}
+
+.vacaciones-section .periodo-vacaciones {
+  text-align: center;
+}
+
+/* Contenedor de tabla específico para vacaciones */
+.vacaciones-section .table-container {
+  overflow-x: auto;
+  min-width: 100%;
+  width: 100%;
+}
+
+.vacaciones-section .table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.vacaciones-section .table-container::-webkit-scrollbar-track {
+  background: #fff3e0;
+  border-radius: 4px;
+}
+
+.vacaciones-section .table-container::-webkit-scrollbar-thumb {
+  background: #ff9800;
+  border-radius: 4px;
+}
+
+.vacaciones-section .table-container::-webkit-scrollbar-thumb:hover {
+  background: #f57c00;
+}
+
+/* Estilos específicos para elementos dentro de la tabla de vacaciones */
+.vacaciones-section .unidad-badge {
+  font-size: 15px;
+  padding: 8px 12px;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: none;
+}
+
+.vacaciones-section .telefono-link {
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.vacaciones-section .estado-badge.moderno {
+  font-size: 15px;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
+.vacaciones-section .colaborador-nombre strong {
+  font-size: 17px;
+}
+
+.vacaciones-section .nivel-original {
+  font-size: 13px;
+}
+
+.vacaciones-header {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important;
+  animation: vacation-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes vacation-pulse {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 152, 0, 0.6);
+  }
+}
+
+/* Responsive para tabla de vacaciones */
+@media (min-width: 576px) {
+  .vacaciones-section .turnos-tabla {
+    font-size: 18px;
+  }
+  
+  .vacaciones-section .turnos-tabla th,
+  .vacaciones-section .turnos-tabla td {
+    padding: 18px 14px;
+    font-size: 18px;
+  }
+  
+  .vacaciones-section .turnos-tabla th {
+    font-size: 19px;
+  }
+}
+
+@media (min-width: 768px) {
+  .vacaciones-section .turnos-tabla {
+    font-size: 19px;
+  }
+  
+  .vacaciones-section .turnos-tabla th,
+  .vacaciones-section .turnos-tabla td {
+    padding: 20px 16px;
+    font-size: 19px;
+  }
+  
+  .vacaciones-section .turnos-tabla th {
+    font-size: 20px;
+  }
+  
+  .vacaciones-section .colaborador-info {
+    min-width: 220px;
+  }
+  
+  .vacaciones-section .unidad-info {
+    min-width: 380px;
+    white-space: nowrap;
+  }
+  
+  .vacaciones-section .telefono-info {
+    min-width: 160px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .vacaciones-section .turnos-tabla {
+    font-size: 20px;
+  }
+  
+  .vacaciones-section .turnos-tabla th,
+  .vacaciones-section .turnos-tabla td {
+    padding: 22px 18px;
+    font-size: 20px;
+  }
+  
+  .vacaciones-section .turnos-tabla th {
+    font-size: 21px;
+  }
+  
+  .vacaciones-section .colaborador-info {
+    min-width: 250px;
+  }
+  
+  .vacaciones-section .unidad-info {
+    min-width: 400px;
+    white-space: nowrap;
+  }
+  
+  .vacaciones-section .telefono-info {
+    min-width: 180px;
+  }
+}
+
+.vacaciones-row {
+  background: linear-gradient(90deg, #fff3e0 0%, #ffffff 100%);
+}
+
+.vacaciones-row:hover {
+  background: linear-gradient(90deg, #ffe0b2 0%, #fff3e0 100%);
+}
+
+.nivel-original {
+  color: #666;
+  font-style: italic;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.periodo-vacaciones {
+  text-align: center;
+  font-size: 16px;
+  color: #f57c00;
+  font-weight: 600;
+}
+
+.periodo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.periodo-info > div:nth-child(2) {
+  font-size: 14px;
+  color: #666;
+  font-weight: normal;
+}
+
+/* Indicador de promoción por vacaciones */
+.promocion-indicator {
+  color: #2196f3;
+  font-style: italic;
+  margin-top: 6px;
+  background: linear-gradient(90deg, #e3f2fd 0%, #ffffff 100%);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border-left: 3px solid #2196f3;
+}
+
+.promocion-indicator small {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.estado-inactivo {
+  background: linear-gradient(135deg, #ffcdd2 0%, #ef9a9a 100%);
+  color: #d32f2f;
+  box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+}
+
+.estado-fijo {
+  background: linear-gradient(135deg, #d1c4e9 0%, #b39ddb 100%);
+  color: #7b1fa2;
+  box-shadow: 0 2px 8px rgba(156, 39, 176, 0.3);
+}
+
+/* Grupos de rotación */
+.grupo-badge {
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.grupo-badge:hover {
+  transform: scale(1.1);
+}
+
+.grupo-badge.a {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  color: #1976d2;
+  border: 2px solid #2196f3;
+}
+
+.grupo-badge.b {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  color: #7b1fa2;
+  border: 2px solid #9c27b0;
+}
+
+.grupo-badge.fijo {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+  color: #388e3c;
+  border: 2px solid #4caf50;
+}
+
+/* Loading mejorado */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.spinner-icon {
+  font-size: 48px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* No resultados */
+.no-resultados {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  margin: 20px 0;
+}
+
+.no-resultados-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.no-resultados h3 {
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+
+.no-resultados p {
+  color: #adb5bd;
+}
+
+/* Footer */
+.turnos-footer {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 30px 40px;
+  border-radius: 12px;
+  margin-top: 30px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.actualizacion-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Estilos para GenerarTurnos */
+.filtro-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  color: #495057;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fecha-input-container {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.filtro-fecha {
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  transition: all 0.3s ease;
+  min-width: 150px;
+  cursor: pointer;
+  flex: 1;
+  color: #000000 !important;
+}
+
+/* Estilos específicos para el datepicker normal */
+.filtro-fecha::-webkit-calendar-picker-indicator {
+  color: #000000 !important;
+  opacity: 1;
+  cursor: pointer;
+  background-color: #000000;
+  filter: invert(0);
+  width: 14px;
+  height: 14px;
+}
+
+.filtro-fecha::-webkit-datetime-edit-text,
+.filtro-fecha::-webkit-datetime-edit-month-field,
+.filtro-fecha::-webkit-datetime-edit-day-field,
+.filtro-fecha::-webkit-datetime-edit-year-field {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+.filtro-fecha-grande {
+  padding: 18px 24px;
+  border: 3px solid #007bff;
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  background: white;
+  transition: all 0.3s ease;
+  min-width: 220px;
+  cursor: pointer;
+  flex: 1;
+  color: #000000;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+}
+
+.filtro-fecha-grande:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+  outline: none;
+  transform: scale(1.02);
+}
+
+.filtro-fecha-grande::-webkit-calendar-picker-indicator {
+  color: #000000 !important;
+  opacity: 1;
+  cursor: pointer;
+  background-color: #000000;
+  filter: invert(0);
+  width: 16px;
+  height: 16px;
+}
+
+.filtro-fecha-grande::-webkit-datetime-edit-text,
+.filtro-fecha-grande::-webkit-datetime-edit-month-field,
+.filtro-fecha-grande::-webkit-datetime-edit-day-field,
+.filtro-fecha-grande::-webkit-datetime-edit-year-field {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Asegurar que el placeholder también sea negro */
+.filtro-fecha-grande::-webkit-input-placeholder {
+  color: #666666 !important;
+  opacity: 1;
+}
+
+.filtro-fecha-grande::placeholder {
+  color: #666666 !important;
+  opacity: 1;
+}
+
+.filtro-fecha-grande:hover {
+  border-color: #0056b3;
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.2);
+}
+
+.filtro-fecha:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+}
+
+.filtro-fecha:invalid {
+  border-color: #dc3545;
+}
+
+.btn-hoy {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 18px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(108, 117, 125, 0.2);
+}
+
+.btn-hoy:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+
+.btn-generar {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  min-width: 140px;
+}
+
+.btn-generar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+}
+
+.btn-generar:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+.fecha-info {
+  margin: 20px 0;
+  padding: 0 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.fecha-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+}
+
+.estado-generacion {
+  display: inline-block;
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  box-shadow: 0 2px 10px rgba(23, 162, 184, 0.2);
+}
+
+.mensaje-generar {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.mensaje-generar .mensaje-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.mensaje-generar h3 {
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+.mensaje-generar p {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+/* Contenedor específico para captura de niveles */
+.niveles-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.niveles-container .nivel-section {
+  margin-bottom: 25px;
+}
+
+.niveles-container .nivel-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Ajustes de columnas para tabla sin grupo */
+.turnos-tabla.moderna th:nth-child(1),
+.fila-colaborador td:nth-child(1) {
+  width: 35%;
+  min-width: 220px;
+}
+
+.turnos-tabla.moderna th:nth-child(2),
+.fila-colaborador td:nth-child(2) {
+  width: 25%;
+  min-width: 150px;
+}
+
+.turnos-tabla.moderna th:nth-child(3),
+.fila-colaborador td:nth-child(3) {
+  width: 20%;
+  min-width: 130px;
+}
+
+.turnos-tabla.moderna th:nth-child(4),
+.fila-colaborador td:nth-child(4) {
+  width: 20%;
+  min-width: 120px;
+}
+
+.btn-actualizar {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-actualizar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* Contenedor específico para captura de niveles */
+.niveles-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.niveles-container .nivel-section {
+  margin-bottom: 25px;
+}
+
+.niveles-container .nivel-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Botón de captura */
+.btn-captura {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
+}
+
+.btn-captura:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(40, 167, 69, 0.4);
+  background: linear-gradient(135deg, #218838 0%, #1db584 100%);
+}
+
+.btn-captura:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive design mejorado */
+@media (max-width: 768px) {
+  .turnos-header {
+    padding: 15px;
+  }
+  
+  .turnos-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .turnos-title h1 {
+    font-size: 20px;
+  }
+  
+  .filtros-container {
+    flex-direction: column;
+  }
+  
+  .filtro-grupo {
+    min-width: unset;
+  }
+  
+  .btn-captura {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  
+  .turnos-tabla.moderna th,
+  .fila-colaborador td {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+  
+  .nivel-header.moderno {
+    padding: 15px;
+  }
+  
+  .nivel-info {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .actualizacion-info {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .turnos-stats {
+    justify-content: center;
+  }
+  
+  .stat-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+  
+  .table-container.responsivo {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .turnos-tabla.moderna {
+    min-width: 600px;
+  }
+}
+
+/* Estilos modernos para Gestión de Colaboradores */
+.gestion-colaboradores-moderna {
+  width: 100%;
+  max-width: 100%;
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Header moderno para colaboradores */
+.colaboradores-header {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  color: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.header-title h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.header-title p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 15px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-moderno {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-exportar {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+}
+
+.btn-exportar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+.btn-exportar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-agregar {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+}
+
+.btn-agregar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* Estadísticas modernas */
+.colaboradores-stats-moderna {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.stat-card-moderna {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 4px solid;
+}
+
+.stat-card-moderna:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card-moderna.total {
+  border-left-color: #6c757d;
+}
+
+.stat-card-moderna.activos {
+  border-left-color: #28a745;
+}
+
+.stat-card-moderna.vacaciones {
+  border-left-color: #fd7e14;
+}
+
+.stat-card-moderna.inactivos {
+  border-left-color: #dc3545;
+}
+
+.stat-card-moderna .stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  font-size: 20px;
+}
+
+.stat-card-moderna.total .stat-icon {
+  background: linear-gradient(135deg, #6c757d20, #6c757d10);
+  color: #6c757d;
+}
+
+.stat-card-moderna.activos .stat-icon {
+  background: linear-gradient(135deg, #28a74520, #28a74510);
+  color: #28a745;
+}
+
+.stat-card-moderna.vacaciones .stat-icon {
+  background: linear-gradient(135deg, #fd7e1420, #fd7e1410);
+}
+
+.stat-card-moderna.inactivos .stat-icon {
+  background: linear-gradient(135deg, #dc354520, #dc354510);
+}
+
+.stat-card-moderna .stat-content h3 {
+  margin: 0 0 4px 0;
+  color: #6c757d;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.stat-card-moderna .stat-content p {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #495057;
+}
+
+/* Filtros modernos */
+.filtros-colaboradores {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 25px;
+}
+
+.filtros-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  align-items: end;
+}
+
+.filtro-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #495057;
+  font-size: 13px;
+}
+
+.input-filtro, .select-filtro {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: white;
+  color: #000000;
+}
+
+.input-filtro:focus, .select-filtro:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.btn-limpiar-filtros {
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #6c757d;
+  transition: all 0.3s ease;
+}
+
+.btn-limpiar-filtros:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+/* Tabla moderna de colaboradores */
+.tabla-colaboradores-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.tabla-header {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px 30px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.tabla-header h3 {
+  margin: 0;
+  color: #495057;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.tabla-wrapper {
+  overflow-x: auto;
+}
+
+.tabla-colaboradores-moderna {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-colaboradores-moderna th {
+  background: linear-gradient(135deg, #f1f3f4 0%, #e8eaed 100%);
+  padding: 18px 20px;
+  text-align: left;
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tabla-colaboradores-moderna th svg {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.fila-colaborador-moderna {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.fila-colaborador-moderna:hover {
+  background: linear-gradient(135deg, #f8f9ff 0%, #f0f8ff 100%);
+  transform: scale(1.005);
+}
+
+.fila-colaborador-moderna td {
+  padding: 18px 20px;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.colaborador-info strong {
+  color: #2c3e50;
+  font-size: 15px;
+}
+
+.unidad-badge-moderna {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  color: #1565c0;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.telefono-link-moderna {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.telefono-link-moderna:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.grupo-badge-moderna {
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  display: inline-block;
+}
+
+.grupo-badge-moderna.grupo-a {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  color: #1976d2;
+}
+
+.grupo-badge-moderna.grupo-b {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  color: #7b1fa2;
+}
+
+.grupo-badge-moderna.grupo-fijo {
+  background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+  color: #388e3c;
+}
+
+.nivel-badge-moderna {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  color: #f57c00;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.estado-badge-moderna {
+  padding: 8px 14px;
+  border-radius: 25px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.estado-badge-moderna.activo {
+  background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+  color: #2e7d32;
+}
+
+.estado-badge-moderna.vacaciones {
+  background: linear-gradient(135deg, #ffecb3 0%, #ffe082 100%);
+  color: #f57c00;
+}
+
+.estado-badge-moderna.inactivo {
+  background: linear-gradient(135deg, #ffcdd2 0%, #ef9a9a 100%);
+  color: #d32f2f;
+}
+
+.acciones-colaborador {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-accion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.btn-accion.editar {
+  background: #17a2b8;
+  color: white;
+}
+
+.btn-accion.editar:hover {
+  background: #138496;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+}
+
+.btn-accion.eliminar {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-accion.eliminar:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+/* No resultados */
+.no-resultados-colaboradores {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.no-resultados-colaboradores svg {
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.no-resultados-colaboradores h3 {
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+/* Modal moderno para colaboradores */
+.modal-overlay-colaboradores {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.modal-content-colaboradores {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header-colaboradores {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px 25px;
+  border-bottom: 2px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px 12px 0 0;
+}
+
+.modal-header-colaboradores h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  color: #000000;
+}
+
+.btn-cerrar-modal {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-cerrar-modal:hover {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.modal-body-colaboradores {
+  padding: 25px;
+}
+
+.form-group-colaboradores {
+  margin-bottom: 20px;
+}
+
+.form-group-colaboradores label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #000000;
+  font-size: 14px;
+}
+
+.input-form-colaboradores, .select-form-colaboradores {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: white;
+  color: #000000;
+}
+
+.input-form-colaboradores:focus, .select-form-colaboradores:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-row-colaboradores {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.checkbox-label-colaboradores {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.checkbox-form-colaboradores {
+  width: 18px;
+  height: 18px;
+  accent-color: #007bff;
+}
+
+.modal-footer-colaboradores {
+  background: #f8f9fa;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-radius: 0 0 12px 12px;
+}
+
+.btn-modal-cancelar {
+  padding: 12px 24px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-modal-cancelar:hover {
+  background: #545b62;
+  transform: translateY(-1px);
+}
+
+.btn-modal-guardar {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-modal-guardar:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* Responsive para colaboradores modernos */
+@media (max-width: 768px) {
+  .colaboradores-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  
+  .header-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+  
+  .btn-moderno {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .colaboradores-stats-moderna {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .filtros-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .tabla-colaboradores-moderna {
+    font-size: 12px;
+  }
+  
+  .fila-colaborador-moderna td {
+    padding: 12px 8px;
+  }
+  
+  .form-row-colaboradores {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content-colaboradores {
+    margin: 10px;
+    max-width: calc(100% - 20px);
+  }
+}
+.colaboradores-container {
+  width: 100%;
+  max-width: 100%;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.colaboradores-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.stat-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-left: 4px solid #007bff;
+}
+
+.stat-card h3 {
+  margin: 0 0 10px 0;
+  color: #495057;
+  font-size: 16px;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.colaboradores-lista {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.colaboradores-lista table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.colaboradores-lista th {
+  background: #f8f9fa;
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.colaboradores-lista td {
+  padding: 15px;
+  border-bottom: 1px solid #dee2e6;
+  vertical-align: middle;
+}
+
+.colaboradores-lista tr:hover {
+  background: #f8f9fa;
+}
+
+.colaboradores-lista tr.inactivo {
+  opacity: 0.6;
+}
+
+.estado-activo {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.estado-inactivo {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.estado-vacaciones {
+  color: #fd7e14;
+  font-weight: bold;
+}
+
+/* Responsive para colaboradores */
+@media (max-width: 768px) {
+  .colaboradores-stats {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .colaboradores-lista {
+    overflow-x: auto;
+  }
+  
+  .colaboradores-lista table {
+    min-width: 600px;
+  }
+  
+  .colaboradores-lista th,
+  .colaboradores-lista td {
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+}
+
+/* Pantallas muy pequeñas (móviles pequeños) */
+@media (max-width: 480px) {
+  .main-container {
+    padding: 5px;
+    margin: 0;
+  }
+  
+  .content {
+    margin-left: 0;
+    padding: 5px;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+    transform: translateX(0);
+  }
+  
+  .turnos-tabla {
+    font-size: 11px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 4px 2px;
+    font-size: 11px;
+    min-width: 70px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 12px;
+  }
+  
+  .export-button,
+  .btn-captura {
+    padding: 6px 8px;
+    font-size: 11px;
+    width: 100%;
+    margin: 3px 0;
+  }
+  
+  .unidad-info {
+    min-width: 150px;
+    font-size: 10px;
+  }
+  
+  .unidad-badge {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+  
+  .turnos-header {
+    padding: 8px;
+  }
+  
+  .turnos-title h1 {
+    font-size: 16px;
+  }
+  
+  .filtros-container {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 5% auto;
+    padding: 15px;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Móviles medianos */
+@media (min-width: 481px) and (max-width: 640px) {
+  .turnos-tabla {
+    font-size: 12px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 6px 4px;
+    font-size: 12px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 13px;
+  }
+  
+  .unidad-info {
+    min-width: 180px;
+  }
+  
+  .export-button,
+  .btn-captura {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Tablets pequeñas */
+@media (min-width: 641px) and (max-width: 768px) {
+  .turnos-tabla {
+    font-size: 13px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 8px 6px;
+    font-size: 13px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 14px;
+  }
+  
+  .unidad-info {
+    min-width: 200px;
+  }
+}
+
+/* Tablets grandes */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .turnos-tabla {
+    font-size: 15px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 10px 8px;
+    font-size: 15px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 16px;
+  }
+  
+  .unidad-info {
+    min-width: 250px;
+  }
+  
+  .content {
+    margin-left: 250px;
+  }
+}
+
+/* Laptops pequeños */
+@media (min-width: 1025px) and (max-width: 1366px) {
+  .turnos-tabla {
+    font-size: 16px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 12px 10px;
+    font-size: 16px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 17px;
+  }
+  
+  .unidad-info {
+    min-width: 300px;
+  }
+}
+
+/* Pantallas grandes */
+@media (min-width: 1367px) and (max-width: 1920px) {
+  .turnos-tabla {
+    font-size: 18px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 14px 12px;
+    font-size: 18px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 19px;
+  }
+  
+  .unidad-info {
+    min-width: 350px;
+  }
+}
+
+/* Pantallas ultra grandes (4K, monitores grandes) */
+@media (min-width: 1921px) {
+  .turnos-tabla {
+    font-size: 20px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 16px 14px;
+    font-size: 20px;
+  }
+  
+  .turnos-tabla th {
+    font-size: 21px;
+  }
+  
+  .unidad-info {
+    min-width: 400px;
+  }
+  
+  .main-container {
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+}
+
+/* Estilos responsivos adicionales para componentes específicos */
+@media (max-width: 768px) {
+  /* Sidebar responsivo */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  /* Botón de menú móvil */
+  .menu-toggle {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  /* Formularios responsivos */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 14px;
+    padding: 8px;
+  }
+  
+  /* Botones responsivos */
+  .btn {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  /* Vacaciones tabla responsiva */
+  .vacaciones-section {
+    margin: 10px 0;
+  }
+  
+  .vacaciones-section h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+}
+
+/* Modo landscape para móviles */
+@media (max-width: 768px) and (orientation: landscape) {
+  .turnos-tabla {
+    font-size: 12px;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    padding: 6px 4px;
+    font-size: 12px;
+  }
+  
+  .sidebar {
+    width: 200px;
+  }
+  
+  .content {
+    margin-left: 0;
+  }
+}
+
+/* Clases de utilidad para responsividad */
+.hide-xs { display: none !important; }
+.show-xs { display: inline !important; }
+
+@media (min-width: 481px) {
+  .hide-xs { display: inline !important; }
+  .show-xs { display: none !important; }
+  .hide-sm { display: none !important; }
+  .show-sm { display: inline !important; }
+}
+
+@media (min-width: 769px) {
+  .hide-sm { display: inline !important; }
+  .show-sm { display: none !important; }
+  .hide-md { display: none !important; }
+  .show-md { display: inline !important; }
+}
+
+@media (min-width: 1025px) {
+  .hide-md { display: inline !important; }
+  .show-md { display: none !important; }
+  .hide-lg { display: none !important; }
+  .show-lg { display: inline !important; }
+}
+
+@media (min-width: 1367px) {
+  .hide-lg { display: inline !important; }
+  .show-lg { display: none !important; }
+}
+
+/* Mejoras adicionales de accesibilidad y UX */
+@media (max-width: 768px) {
+  /* Overlay para cerrar sidebar en móvil */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Mejorar el scroll en móviles */
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Ajustar tamaño de texto en inputs */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  select,
+  textarea {
+    font-size: 16px; /* Evita zoom en iOS */
+  }
+  
+  /* Botones más grandes para touch */
+  .btn, button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Estilo específico para nombres de colaboradores */
+.colaborador-nombre {
+  font-weight: 600;
+  font-size: 16px;
+  color: #2c3e50;
+  line-height: 1.3;
+}
+
+.colaborador-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.colaborador-extra {
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 400;
+}
+
+/* Hacer la columna colaborador más prominente */
+.turnos-tabla td:first-child,
+.turnos-tabla th:first-child {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  min-width: 200px;
+}
+
+.turnos-tabla td:first-child .colaborador-nombre {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a365d;
+  margin-bottom: 2px;
+}
+
+/* Estilos específicos para Dashboard */
+.card .turnos-tabla td:first-child .colaborador-nombre {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.card .colaborador-info .colaborador-nombre {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.4;
+}
+
+/* Responsivo para colaboradores */
+@media (min-width: 769px) {
+  .colaborador-nombre {
+    font-size: 18px;
+  }
+  
+  .turnos-tabla td:first-child,
+  .turnos-tabla th:first-child {
+    font-size: 18px !important;
+    min-width: 250px;
+  }
+  
+  .turnos-tabla td:first-child .colaborador-nombre {
+    font-size: 19px;
+  }
+  
+  .card .turnos-tabla td:first-child .colaborador-nombre,
+  .card .colaborador-info .colaborador-nombre {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .colaborador-nombre {
+    font-size: 19px;
+  }
+  
+  .turnos-tabla td:first-child,
+  .turnos-tabla th:first-child {
+    font-size: 19px !important;
+    min-width: 280px;
+  }
+  
+  .turnos-tabla td:first-child .colaborador-nombre {
+    font-size: 20px;
+  }
+  
+  .card .turnos-tabla td:first-child .colaborador-nombre,
+  .card .colaborador-info .colaborador-nombre {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1367px) {
+  .colaborador-nombre {
+    font-size: 20px;
+  }
+  
+  .turnos-tabla td:first-child,
+  .turnos-tabla th:first-child {
+    font-size: 20px !important;
+    min-width: 300px;
+  }
+  
+  .turnos-tabla td:first-child .colaborador-nombre {
+    font-size: 21px;
+  }
+  
+  .card .turnos-tabla td:first-child .colaborador-nombre,
+  .card .colaborador-info .colaborador-nombre {
+    font-size: 19px;
+  }
+}
+
+.sidebar,
+.modal-content,
+.turnos-tabla,
+.export-button {
+  transition: all 0.3s ease;
+}
+
+/* Estilos para impresión */
+@media print {
+  .sidebar,
+  .export-button,
+  .btn-captura,
+  .filtros-container {
+    display: none !important;
+  }
+  
+  .content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .turnos-tabla {
+    font-size: 12px;
+    border-collapse: collapse;
+  }
+  
+  .turnos-tabla th,
+  .turnos-tabla td {
+    border: 1px solid #000;
+    padding: 4px;
+  }
+}
+
+/* Estilos adicionales para Dashboard */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card .colaborador-nombre {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a365d;
+  line-height: 1.3;
+}
+
+.nivel-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 16px;
+  margin: 0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.nivel-content {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.estado-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.estado-normal {
+  background: #d4edda;
+  color: #155724;
+}
+
+.estado-reemplazo {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.estado-fijo {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+/* Loading styles */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.loading-spinner {
+  text-align: center;
+  color: #6c757d;
+}
+
+.loading-spinner svg {
+  animation: spin 1s linear infinite;
+}
+
+/* Badge de días en tabla de vacaciones */
+.turnos-tabla .dias-badge {
+  background: #007bff !important;
+  color: white !important;
+  padding: 4px 8px !important;
+  border-radius: 12px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  white-space: nowrap;
+}
+
+/* Badge más compacto para gestión */
+.gestion-vacaciones .turnos-tabla .dias-badge {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%) !important;
+  color: white !important;
+  padding: 3px 8px !important;
+  border-radius: 10px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+  letter-spacing: 0.3px;
+}
+
+/* Fechas más grandes en tabla de vacaciones */
+.turnos-tabla td:nth-child(3),
+.turnos-tabla td:nth-child(4) {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #2c3e50 !important;
+  text-align: center;
+}
+
+.turnos-tabla th:nth-child(3),
+.turnos-tabla th:nth-child(4) {
+  font-size: 14px !important;
+  text-align: center;
+}
+
+/* Estados de vacaciones en tabla estándar - Mejorado */
+.turnos-tabla .estado-activo {
+  color: #dc3545 !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(220, 53, 69, 0.2);
+}
+
+.turnos-tabla .estado-programado {
+  color: #fd7e14 !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(253, 126, 20, 0.2);
+}
+
+.turnos-tabla .estado-finalizado {
+  color: #28a745 !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(40, 167, 69, 0.2);
+}
+
+/* Botones de acción en tabla estándar - optimizados para una línea */
+.turnos-tabla .acciones-vacaciones {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.turnos-tabla .btn-editar-vacacion {
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: auto;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
+}
+
+.turnos-tabla .btn-editar-vacacion:hover {
+  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.4);
+}
+
+.turnos-tabla .btn-cancelar-vacacion {
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-width: auto;
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+}
+
+.turnos-tabla .btn-cancelar-vacacion:hover {
+  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
+}
+
+/* Fechas más grandes en tablas de vacaciones */
+.vacaciones-section .turnos-tabla td:nth-child(4) {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #2c3e50 !important;
+  text-align: center;
+}
+
+.vacaciones-section .turnos-tabla th:nth-child(4) {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  text-align: center;
+}
+
+/* Responsivo para fechas de vacaciones */
+@media (min-width: 769px) {
+  .vacaciones-section .turnos-tabla td:nth-child(4) {
+    font-size: 18px !important;
+  }
+  
+  .vacaciones-section .turnos-tabla th:nth-child(4) {
+    font-size: 16px !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .vacaciones-section .turnos-tabla td:nth-child(4) {
+    font-size: 19px !important;
+  }
+  
+  .vacaciones-section .turnos-tabla th:nth-child(4) {
+    font-size: 17px !important;
+  }
+}
+
+@media (min-width: 1367px) {
+  .vacaciones-section .turnos-tabla td:nth-child(4) {
+    font-size: 20px !important;
+  }
+  
+  .vacaciones-section .turnos-tabla th:nth-child(4) {
+    font-size: 18px !important;
+  }
+}
+
+/* Responsividad para tabla vacaciones */
+@media (max-width: 1200px) {
+  .turnos-tabla th:nth-child(6),
+  .turnos-tabla td:nth-child(6) {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* Reducir columna de período de vacaciones */
+.vacaciones-section .turnos-tabla th:nth-child(4),
+.vacaciones-section .turnos-tabla td:nth-child(4) {
+  max-width: 120px;
+  min-width: 100px;
+  font-size: 12px;
+  padding: 8px 4px;
+}
+
+.vacaciones-section .turnos-tabla td:nth-child(4) {
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+@media (min-width: 769px) {
+  .vacaciones-section .turnos-tabla th:nth-child(4),
+  .vacaciones-section .turnos-tabla td:nth-child(4) {
+    max-width: 140px;
+    min-width: 120px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .vacaciones-section .turnos-tabla th:nth-child(4),
+  .vacaciones-section .turnos-tabla td:nth-child(4) {
+    max-width: 160px;
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 768px) {
+  .turnos-tabla .acciones-vacaciones {
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .turnos-tabla .btn-editar-vacacion,
+  .turnos-tabla .btn-cancelar-vacacion {
+    padding: 4px 6px;
+    font-size: 10px;
+  }
+  
+  .vacaciones-section .turnos-tabla th:nth-child(4),
+  .vacaciones-section .turnos-tabla td:nth-child(4) {
+    max-width: 80px;
+    font-size: 11px;
+    padding: 6px 2px;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Mejoras específicas para tipografía de gestión de vacaciones */
+.gestion-vacaciones .turnos-tabla {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  letter-spacing: 0.2px;
+}
+
+.gestion-vacaciones .turnos-tabla th {
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  color: #2c3e50 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  text-align: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+  border-bottom: 2px solid #dee2e6 !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
+}
+
+.gestion-vacaciones .turnos-tabla td {
+  font-size: 13px !important;
+  font-weight: 500;
+  color: #495057;
+  text-align: center;
+  line-height: 1.4;
+  padding: 12px 8px !important;
+}
+
+/* Columna de colaborador más destacada */
+.gestion-vacaciones .turnos-tabla td:first-child {
+  font-weight: 600 !important;
+  color: #2c3e50 !important;
+  font-size: 14px !important;
+  text-align: left !important;
+}
+
+/* Unidad con estilo más sutil */
+.gestion-vacaciones .turnos-tabla td:nth-child(2) {
+  font-size: 12px !important;
+  color: #6c757d !important;
+  font-style: italic;
+  text-align: left !important;
+}
+
+/* Fechas más prominentes */
+.gestion-vacaciones .turnos-tabla td:nth-child(3),
+.gestion-vacaciones .turnos-tabla td:nth-child(4) {
+  font-weight: 600 !important;
+  color: #007bff !important;
+  font-size: 13px !important;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+}
+
+/* Motivo con estilo especial */
+.gestion-vacaciones .turnos-tabla td:nth-child(6) {
+  font-style: italic;
+  color: #6c757d !important;
+  font-size: 12px !important;
+  text-align: left !important;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Hover effect mejorado */
+.gestion-vacaciones .turnos-tabla tbody tr:hover {
+  background-color: #f0f8ff !important;
+  transform: scale(1.005);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+}
+
+/* Fila activa (en vacaciones) más destacada */
+.gestion-vacaciones .turnos-tabla tbody tr[style*="background: #fff8e1"] {
+  background: linear-gradient(135deg, #fff8e1 0%, #fff3cd 100%) !important;
+  border-left: 4px solid #ffc107;
+}
+
+.gestion-vacaciones .turnos-tabla tbody tr[style*="background: #fff8e1"]:hover {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
+}
+
+/* Mejoras adicionales para legibilidad de la tabla de vacaciones */
+.gestion-vacaciones .turnos-tabla th:first-child {
+  text-align: left !important;
+  padding-left: 16px !important;
+}
+
+.gestion-vacaciones .turnos-tabla th:nth-child(2) {
+  text-align: left !important;
+  padding-left: 16px !important;
+}
+
+.gestion-vacaciones .turnos-tabla td:first-child {
+  padding-left: 16px !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.gestion-vacaciones .turnos-tabla td:nth-child(2) {
+  padding-left: 16px !important;
+}
+
+/* Mejor contraste para las columnas de fechas */
+.gestion-vacaciones .turnos-tabla th:nth-child(3),
+.gestion-vacaciones .turnos-tabla th:nth-child(4) {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+  color: #1565c0 !important;
+}
+
+/* Espaciado mejorado para motivo */
+.gestion-vacaciones .turnos-tabla th:nth-child(6) {
+  text-align: left !important;
+  padding-left: 16px !important;
+}
+
+/* Responsive improvements */
+@media (max-width: 1024px) {
+  .gestion-vacaciones .turnos-tabla th {
+    font-size: 12px !important;
+    padding: 10px 6px !important;
+  }
+  
+  .gestion-vacaciones .turnos-tabla td {
+    font-size: 11px !important;
+    padding: 10px 6px !important;
+  }
+  
+  .gestion-vacaciones .turnos-tabla td:first-child {
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .gestion-vacaciones .turnos-tabla {
+    font-size: 10px !important;
+  }
+  
+  .gestion-vacaciones .turnos-tabla th {
+    font-size: 10px !important;
+    padding: 8px 4px !important;
+    letter-spacing: 0.3px;
+  }
+  
+  .gestion-vacaciones .turnos-tabla td {
+    font-size: 10px !important;
+    padding: 8px 4px !important;
+  }
+  
+  .gestion-vacaciones .turnos-tabla td:first-child {
+    font-size: 11px !important;
+  }
+}

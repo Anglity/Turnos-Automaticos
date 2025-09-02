@@ -1,0 +1,97 @@
+{
+  "colaboradores": [
+    {
+      "id": 1,
+      "nombre": "JASON VARGAS",
+      "unidad": "Infraestructura & Cloud",
+      "telefono": "(829) 662-4002",
+      "grupoRotacion": "A",
+      "nivelActual": 1,
+      "activo": true
+    },
+    {
+      "id": 2,
+      "nombre": "ELVIN REYES",
+      "unidad": "Gestión de Datos",
+      "telefono": "(809) 641-5018",
+      "grupoRotacion": "A",
+      "nivelActual": 1,
+      "activo": true
+    },
+    {
+      "id": 3,
+      "nombre": "SERGIO GUERRERO",
+      "unidad": "Comunicaciones",
+      "telefono": "(829) 345-5788",
+      "grupoRotacion": "A",
+      "nivelActual": 1,
+      "activo": true
+    },
+    {
+      "id": 4,
+      "nombre": "JUAN DOMÍNGUEZ",
+      "unidad": "Comunicaciones",
+      "telefono": "(829) 345-5708",
+      "grupoRotacion": "B",
+      "nivelActual": 2,
+      "activo": true
+    },
+    {
+      "id": 5,
+      "nombre": "ANEUDY HERNÁNDEZ",
+      "unidad": "Infraestructura & Cloud",
+      "telefono": "(829) 662-5518",
+      "grupoRotacion": "B",
+      "nivelActual": 2,
+      "activo": true
+    },
+    {
+      "id": 6,
+      "nombre": "CRISTIAN MELO",
+      "unidad": "Gestión de Datos",
+      "telefono": "(809) 720-9800",
+      "grupoRotacion": "B",
+      "nivelActual": 2,
+      "activo": true
+    },
+    {
+      "id": 7,
+      "nombre": "YEHUDI SANTANA",
+      "unidad": "Infraestructura & Cloud",
+      "telefono": "(829) 635-9782",
+      "grupoRotacion": "FIJO",
+      "nivelActual": 3,
+      "activo": true
+    },
+    {
+      "id": 8,
+      "nombre": "VLADY REINOSO",
+      "unidad": "Operaciones TI",
+      "telefono": "(829) 345-1196",
+      "grupoRotacion": "FIJO",
+      "nivelActual": 3,
+      "activo": true
+    }
+  ],
+  "vacaciones": [
+    {
+      "id": 1,
+      "colaboradorId": 2,
+      "fechaInicio": "2025-09-01",
+      "fechaFin": "2025-09-07",
+      "motivo": "Vacaciones anuales",
+      "activo": true
+    }
+  ],
+  "configuracion": {
+    "fechaReferencia": "2025-08-26",
+    "grupoInicialNivel1": "A",
+    "semanasRotacion": 1
+  },
+  "unidades": [
+    "Infraestructura & Cloud",
+    "Gestión de Datos", 
+    "Comunicaciones",
+    "Operaciones TI"
+  ]
+}
