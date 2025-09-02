@@ -201,6 +201,47 @@ const GestionColaboradores = () => {
     }
   };
 
+  // Función para exportar backup
+  const exportarBackup = () => {
+    try {
+      exportarDatos();
+      alert('🎉 Backup exportado exitosamente!\n\nEl archivo se ha descargado y contiene todos tus datos.\nGuárdalo en un lugar seguro.');
+    } catch (error) {
+      console.error('Error al exportar backup:', error);
+      alert('Error al exportar el backup. Intenta nuevamente.');
+    }
+  };
+
+  // Función para importar backup
+  const importarBackup = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    
+    input.onchange = async (e) => {
+      const archivo = e.target.files[0];
+      if (!archivo) return;
+      
+      try {
+        await importarDatos(archivo);
+        // Recargar datos después de importar
+        const colaboradoresActualizados = cargarColaboradores();
+        const vacacionesActualizadas = cargarVacaciones();
+        
+        setColaboradores(colaboradoresActualizados);
+        setColaboradoresOriginales(colaboradoresActualizados);
+        setVacaciones(vacacionesActualizadas);
+        
+        alert('🎉 Backup importado exitosamente!\n\nTodos los datos han sido restaurados desde el archivo.');
+      } catch (error) {
+        console.error('Error al importar backup:', error);
+        alert('❌ Error al importar el backup.\n\nVerifica que el archivo sea válido y vuelve a intentar.');
+      }
+    };
+    
+    input.click();
+  };
+
   // Función de captura
   const capturarTabla = async () => {
     if (!containerRef.current) return;

@@ -79,34 +79,6 @@ const Header = ({ onMenuClick }) => {
         alignItems: 'center',
         gap: '10px'
       }}>
-        <button
-          onClick={() => {
-            // Limpiar completamente el localStorage para eliminar datos incorrectos
-            localStorage.removeItem('turnosData');
-            
-            // Forzar recarga completa desde JSON
-            import('../services/turnosService').then(({ restaurarDatosOriginales }) => {
-              restaurarDatosOriginales();
-              
-              // Recargar la página para asegurar datos frescos
-              window.location.reload();
-            });
-          }}
-          style={{
-            background: 'rgba(255,255,255,0.2)',
-            border: '1px solid rgba(255,255,255,0.3)',
-            color: 'white',
-            padding: '6px 12px',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '12px',
-            fontWeight: 'bold'
-          }}
-          onMouseOver={(e) => e.target.style.background = 'rgba(255,255,255,0.3)'}
-          onMouseOut={(e) => e.target.style.background = 'rgba(255,255,255,0.2)'}
-        >
-          🔄 LIMPIAR Y ACTUALIZAR
-        </button>
         <div style={{ 
           display: 'flex', 
           alignItems: 'center',

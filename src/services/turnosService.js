@@ -1,6 +1,9 @@
 import turnosData from '../data/turnos.json';
 import { calcularSemanaDeRotacion, determinarGrupoEnNivel1 } from '../utils/fechas.js';
 
+// CLAVE ÚNICA para este proyecto - NO cambia con puerto/IP
+const STORAGE_KEY = 'turnos_automaticos_utesa_data_v1';
+
 // Estado en memoria de los datos
 let datosEnMemoria = {
   colaboradores: [...turnosData.colaboradores],
@@ -8,35 +11,118 @@ let datosEnMemoria = {
   configuracion: { ...turnosData.configuracion }
 };
 
-// Inicializar datos desde localStorage si existen
+// Inicializar datos usando clave única (independiente de puerto/IP)
 const inicializarDatos = () => {
-  const datosGuardados = localStorage.getItem('turnosData');
+  // Primero verificar si hay migración pendiente
+  verificarYMigrarDatos();
+  
+  // Intentar cargar con la clave específica del proyecto
+  const datosGuardados = localStorage.getItem(STORAGE_KEY);
+  
   if (datosGuardados) {
     try {
-      datosEnMemoria = JSON.parse(datosGuardados);
+      const datosParsed = JSON.parse(datosGuardados);
+      // Verificar que los datos sean válidos
+      if (datosParsed.colaboradores && datosParsed.vacaciones && datosParsed.configuracion) {
+        datosEnMemoria = datosParsed;
+        console.log('✅ Datos cargados correctamente desde almacenamiento persistente');
+        
+        // Verificar integridad de los datos cargados
+        if (!verificarIntegridadDatos()) {
+          console.log('🔄 Datos corruptos, se restauraron automáticamente');
+        }
+        return;
+      }
     } catch (error) {
-      console.error('Error al cargar datos guardados:', error);
-      // Si hay error, usar datos originales
-      datosEnMemoria = {
-        colaboradores: [...turnosData.colaboradores],
-        vacaciones: [...turnosData.vacaciones],
-        configuracion: { ...turnosData.configuracion }
-      };
+      console.error('❌ Error al cargar datos guardados:', error);
     }
   }
+  
+  // Si no hay datos o hay error, usar datos originales
+  console.log('📋 Usando datos originales del JSON');
+  datosEnMemoria = {
+    colaboradores: [...turnosData.colaboradores],
+    vacaciones: [...turnosData.vacaciones],
+    configuracion: { ...turnosData.configuracion }
+  };
+  
+  // Guardar inmediatamente los datos originales
+  persistirDatos('init');
 };
 
-// Guardar datos en localStorage
+// Guardar datos con clave única (persiste aunque cambies puerto/IP)
 const persistirDatos = (source = 'unknown') => {
   try {
+    // Usar la clave específica del proyecto
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(datosEnMemoria));
+    
+    // También mantener compatibilidad con la clave antigua (por si acaso)
     localStorage.setItem('turnosData', JSON.stringify(datosEnMemoria));
+    
+    console.log(`💾 Datos guardados automáticamente (${source})`);
+    
     // Disparar evento personalizado para notificar cambios
     window.dispatchEvent(new CustomEvent('turnosDataChanged', { 
       detail: { source, timestamp: Date.now() } 
     }));
   } catch (error) {
-    console.error('Error al guardar datos:', error);
+    console.error('❌ Error al guardar datos:', error);
   }
+};
+
+// Función para migrar datos si el usuario viene de otro puerto/IP
+const verificarYMigrarDatos = () => {
+  // Buscar datos con la clave antigua
+  const datosAntiguos = localStorage.getItem('turnosData');
+  const datosNuevos = localStorage.getItem(STORAGE_KEY);
+  
+  // Si no hay datos nuevos pero sí antiguos, migrar
+  if (!datosNuevos && datosAntiguos) {
+    try {
+      const datosParaMigrar = JSON.parse(datosAntiguos);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(datosParaMigrar));
+      console.log('🔄 Datos migrados automáticamente desde configuración anterior');
+      return true;
+    } catch (error) {
+      console.error('❌ Error al migrar datos:', error);
+    }
+  }
+  
+  return false;
+};
+
+// Verificar integridad de datos (por si se corrompen)
+const verificarIntegridadDatos = () => {
+  const colaboradores = datosEnMemoria.colaboradores;
+  const vacaciones = datosEnMemoria.vacaciones;
+  
+  let problemasEncontrados = [];
+  
+  // Verificar que hay colaboradores
+  if (!colaboradores || colaboradores.length === 0) {
+    problemasEncontrados.push('No hay colaboradores');
+  }
+  
+  // Verificar que cada colaborador tiene campos requeridos
+  colaboradores.forEach((col, index) => {
+    if (!col.id || !col.nombre || !col.unidad) {
+      problemasEncontrados.push(`Colaborador ${index + 1} tiene campos faltantes`);
+    }
+  });
+  
+  // Si hay problemas, restaurar datos originales automáticamente
+  if (problemasEncontrados.length > 0) {
+    console.warn('⚠️ Datos corruptos detectados, restaurando automáticamente:', problemasEncontrados);
+    datosEnMemoria = {
+      colaboradores: [...turnosData.colaboradores],
+      vacaciones: [...turnosData.vacaciones],
+      configuracion: { ...turnosData.configuracion }
+    };
+    persistirDatos('auto-restore');
+    return false;
+  }
+  
+  return true;
 };
 
 // Inicializar al cargar el módulo
@@ -234,4 +320,16 @@ export const restaurarDatosOriginales = () => {
   };
   persistirDatos('restore');
   return datosEnMemoria;
+};
+
+// Función para obtener estadísticas de almacenamiento
+export const obtenerEstadisticasAlmacenamiento = () => {
+  const datos = JSON.stringify(datosEnMemoria);
+  return {
+    tamanoKB: (datos.length / 1024).toFixed(2),
+    colaboradores: datosEnMemoria.colaboradores.length,
+    vacaciones: datosEnMemoria.vacaciones.length,
+    ultimaActualizacion: new Date().toLocaleString(),
+    claveAlmacenamiento: STORAGE_KEY
+  };
 };

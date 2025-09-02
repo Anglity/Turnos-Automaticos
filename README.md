@@ -261,10 +261,23 @@ host: '192.168.1.150'  // Solo esta IP puede acceder
 
 ## 📱 CARACTERÍSTICAS DE LA APLICACIÓN
 
+### 🔒 **PROTECCIÓN AUTOMÁTICA DE DATOS**
+- ✅ **Los datos NO se pierden** al cambiar puerto o IP
+- ✅ **Migración automática** desde configuraciones anteriores
+- ✅ **Verificación de integridad** y restauración automática
+- ✅ **Clave única del proyecto** independiente del navegador
+
+### 💾 **Cómo Funciona la Persistencia:**
+1. **Primera vez:** Usa datos del archivo JSON original
+2. **Cambios:** Se guardan automáticamente con clave única
+3. **Cambio de puerto/IP:** Migra automáticamente los datos
+4. **Datos corruptos:** Se restauran automáticamente
+
 ### 🏠 Dashboard
 - Muestra turnos de la semana actual
 - Estadísticas de colaboradores por nivel
 - Estado de vacaciones activas
+- **Indicador de datos protegidos**
 
 ### 📅 Generar Turnos
 - Seleccionar cualquier fecha
