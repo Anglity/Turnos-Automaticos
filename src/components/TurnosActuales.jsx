@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { generarTurnosPorSemana, aplicarReemplazos, cargarColaboradores, cargarVacaciones } from '../services/turnosService'
+import { generarTurnosPorSemana, aplicarReemplazos, cargarColaboradores, cargarVacaciones } from '../services/turnosServiceFirebase'
 import { obtenerLunesDelamSemana, obtenerDomingoDeLaSemana } from '../utils/fechas'
 import html2canvas from 'html2canvas'
 
@@ -14,20 +14,20 @@ const TurnosActuales = () => {
   const containerRef = useRef(null)
 
   useEffect(() => {
-    const cargarDatos = () => {
+    const cargarDatos = async () => {
       try {
         // Cargar datos básicos
-        const dataColaboradores = cargarColaboradores()
-        const dataVacaciones = cargarVacaciones()
+        const dataColaboradores = await cargarColaboradores()
+        const dataVacaciones = await cargarVacaciones()
         setColaboradores(dataColaboradores)
         setVacaciones(dataVacaciones)
 
         // Generar turnos actuales usando la misma lógica del Dashboard
         const fechaActual = new Date()
-        const turnos = generarTurnosPorSemana(fechaActual)
+        const turnos = await generarTurnosPorSemana(fechaActual)
         const lunes = obtenerLunesDelamSemana(fechaActual)
         const domingo = obtenerDomingoDeLaSemana(fechaActual)
-        const turnosConReemplazos = aplicarReemplazos(turnos, lunes, domingo)
+        const turnosConReemplazos = await aplicarReemplazos(turnos, lunes, domingo)
         
         setTurnosActuales({
           ...turnosConReemplazos,

@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
-import { cargarColaboradores, cargarVacaciones, generarTurnosPorSemana, aplicarReemplazos } from '../services/turnosService'
-import { obtenerLunesDelamSemana, obtenerDomingoDeLaSemana, formatearRangoSemana } from '../utils/fechas'
+import { cargarColaboradores, cargarVacaciones, generarTurnos, generarTurnosPorSemana, aplicarReemplazos } from '../services/turnosServiceFirebase'
+import { obtenerLunesDelamSemana, obtenerDomingoDeLaSemana, formatearRangoSemana, obtenerFechaHoyLocal } from '../utils/fechas'
 import html2canvas from 'html2canvas'
+import eventBus, { EVENTS } from '../utils/eventBus'
 
 const GenerarTurnos = () => {
   const [colaboradores, setColaboradores] = useState([])
@@ -15,16 +16,15 @@ const GenerarTurnos = () => {
   const containerRef = useRef(null)
 
   useEffect(() => {
-    const cargarDatos = () => {
+    const cargarDatos = async () => {
       try {
-        const dataColaboradores = cargarColaboradores()
-        const dataVacaciones = cargarVacaciones()
+        const dataColaboradores = await cargarColaboradores()
+        const dataVacaciones = await cargarVacaciones()
         setColaboradores(dataColaboradores)
         setVacaciones(dataVacaciones)
         
         // Establecer fecha actual por defecto
-        const hoy = new Date()
-        const fechaHoy = hoy.toISOString().split('T')[0] // Formato YYYY-MM-DD
+        const fechaHoy = obtenerFechaHoyLocal()
         setFechaConsulta(fechaHoy)
         
       } catch (error) {
@@ -35,16 +35,19 @@ const GenerarTurnos = () => {
     };
 
     cargarDatos();
-    
-    // Escuchar cambios en los datos para actualizar en tiempo real
-    const handleDataChange = () => {
-      cargarDatos();
-    };
 
-    window.addEventListener('turnosDataChanged', handleDataChange);
+    // 🔄 Listeners para actualizaciones en tiempo real
+    const unsubscribeColaboradores = eventBus.on(EVENTS.COLABORADORES_UPDATED, () => {
+      cargarDatos();
+    });
+
+    const unsubscribeVacaciones = eventBus.on(EVENTS.VACACIONES_UPDATED, () => {
+      cargarDatos();
+    });
 
     return () => {
-      window.removeEventListener('turnosDataChanged', handleDataChange);
+      unsubscribeColaboradores();
+      unsubscribeVacaciones();
     };
   }, [])
 
@@ -73,7 +76,7 @@ const GenerarTurnos = () => {
     return { texto: 'Activo', clase: 'estado-activo', emoji: '✅' }
   }
 
-  const handleGenerarTurnos = () => {
+  const handleGenerarTurnos = async () => {
     if (!fechaConsulta) {
       alert('Por favor selecciona una fecha')
       return
@@ -88,10 +91,10 @@ const GenerarTurnos = () => {
       }
 
       // Generar turnos usando la rotación correcta
-      const turnos = generarTurnosPorSemana(fechaObj)
+      const turnos = await generarTurnosPorSemana(fechaObj)
       const lunes = obtenerLunesDelamSemana(fechaObj)
       const domingo = obtenerDomingoDeLaSemana(fechaObj)
-      const turnosConReemplazos = aplicarReemplazos(turnos, lunes, domingo)
+      const turnosConReemplazos = await aplicarReemplazos(turnos, lunes, domingo)
       
       setTurnosGenerados({
         ...turnosConReemplazos,
@@ -100,8 +103,6 @@ const GenerarTurnos = () => {
         fechaConsulta: fechaObj
       })
       
-      console.log('Turnos generados para:', fechaObj.toLocaleDateString('es-ES'))
-      console.log('Semana:', turnosConReemplazos.numeroSemana, 'Grupo en Nivel 1:', turnosConReemplazos.grupoEnNivel1)
     } catch (error) {
       console.error('Error al generar turnos:', error)
       alert('Error al generar los turnos')
@@ -110,7 +111,6 @@ const GenerarTurnos = () => {
 
   const handleFechaChange = (e) => {
     const nuevaFecha = e.target.value
-    console.log('Fecha seleccionada:', nuevaFecha) // Para debugging
     setFechaConsulta(nuevaFecha)
     
     // Si había turnos generados, reiniciarlos cuando cambie la fecha
@@ -411,7 +411,7 @@ const GenerarTurnos = () => {
               <button
                 type="button"
                 onClick={() => {
-                  const hoy = new Date().toISOString().split('T')[0]
+                  const hoy = obtenerFechaHoyLocal()
                   setFechaConsulta(hoy)
                   setTurnosGenerados(null)
                 }}

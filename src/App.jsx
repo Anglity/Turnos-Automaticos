@@ -7,6 +7,7 @@ import TurnosActuales from './components/TurnosActuales'
 import GenerarTurnos from './components/GenerarTurnos'
 import GestionColaboradores from './components/GestionColaboradores'
 import GestionVacaciones from './components/GestionVacaciones'
+import { programarLimpiezaAutomatica } from './services/turnosServiceFirebase'
 import './App.css'
 
 function App() {
@@ -24,8 +25,22 @@ function App() {
     // Add event listener for window resize
     window.addEventListener('resize', checkScreenSize)
 
-    // Cleanup event listener
-    return () => window.removeEventListener('resize', checkScreenSize)
+    // 🧹 Inicializar limpieza automática de base de datos
+    let limpiezaInterval;
+    try {
+      limpiezaInterval = programarLimpiezaAutomatica();
+      console.log('✅ Limpieza automática de BD programada');
+    } catch (error) {
+      console.error('❌ Error programando limpieza automática:', error);
+    }
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+      if (limpiezaInterval) {
+        clearInterval(limpiezaInterval);
+      }
+    }
   }, [])
 
   return (

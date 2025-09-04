@@ -1,18 +1,50 @@
 import { useState, useEffect } from 'react'
-import { Calendar, Users, Clock, Activity } from 'lucide-react'
-import { generarTurnosPorSemana, aplicarReemplazos, cargarColaboradores, cargarVacaciones } from '../services/turnosService'
+import { Calendar, Users, Clock, Activity, Database, Trash2, Settings } from 'lucide-react'
+import { generarTurnosPorSemana, aplicarReemplazos, cargarColaboradores, cargarVacaciones, limpiarVacacionesVencidas, limpiarColaboradoresInactivos, limpiarVacacionesHuerfanas, actualizarConfiguracionReferencia } from '../services/turnosServiceFirebase'
 import { obtenerLunesDelamSemana, obtenerDomingoDeLaSemana, formatearRangoSemana } from '../utils/fechas'
 
 const Dashboard = () => {
   const [turnosActuales, setTurnosActuales] = useState(null)
   const [fechaActual, setFechaActual] = useState(new Date())
+  const [colaboradoresList, setColaboradoresList] = useState([])
+  const [vacacionesList, setVacacionesList] = useState([])
+  const [estadisticasBD, setEstadisticasBD] = useState({
+    colaboradores: 0,
+    vacaciones: 0,
+    totalDocumentos: 0
+  })
+  const [limpiandoBD, setLimpiandoBD] = useState(false)
+  const [actualizandoConfig, setActualizandoConfig] = useState(false)
 
-  const cargarTurnos = () => {
+  const actualizarConfiguracion = async () => {
+    if (!confirm('¿Deseas actualizar la fecha de referencia para corregir el cálculo de semanas?\n\nEsto establecerá la fecha de referencia correcta para que hoy muestre "Semana #2".')) {
+      return;
+    }
+
+    setActualizandoConfig(true);
     try {
-      const turnos = generarTurnosPorSemana(fechaActual)
+      const exito = await actualizarConfiguracionReferencia();
+      if (exito) {
+        alert('✅ Configuración actualizada correctamente!\n\nEl cálculo de semanas ahora debería mostrar la semana correcta.');
+        // Recargar turnos para ver el cambio
+        await cargarTurnos();
+      } else {
+        alert('❌ Error al actualizar la configuración. Revisa la consola para más detalles.');
+      }
+    } catch (error) {
+      console.error('Error actualizando configuración:', error);
+      alert('❌ Error al actualizar la configuración. Revisa la consola para más detalles.');
+    } finally {
+      setActualizandoConfig(false);
+    }
+  }
+
+  const cargarTurnos = async () => {
+    try {
+      const turnos = await generarTurnosPorSemana(fechaActual)
       const lunes = obtenerLunesDelamSemana(fechaActual)
       const domingo = obtenerDomingoDeLaSemana(fechaActual)
-      const turnosConReemplazos = aplicarReemplazos(turnos, lunes, domingo)
+      const turnosConReemplazos = await aplicarReemplazos(turnos, lunes, domingo)
       
       setTurnosActuales({
         ...turnosConReemplazos,
@@ -24,8 +56,55 @@ const Dashboard = () => {
     }
   }
 
+  const cargarEstadisticasBD = async () => {
+    try {
+      const colaboradores = await cargarColaboradores()
+      const vacaciones = await cargarVacaciones()
+      
+      setColaboradoresList(colaboradores)
+      setVacacionesList(vacaciones)
+      
+      setEstadisticasBD({
+        colaboradores: colaboradores.length,
+        vacaciones: vacaciones.length,
+        totalDocumentos: colaboradores.length + vacaciones.length
+      })
+    } catch (error) {
+      console.error('Error al cargar estadísticas BD:', error)
+    }
+  }
+
+  const limpiarBaseDatos = async () => {
+    if (!confirm('¿Deseas limpiar la base de datos? Esto eliminará:\n\n• Vacaciones vencidas hace más de 6 meses\n• Colaboradores inactivos sin vacaciones\n• Vacaciones huérfanas\n\nEsta acción no se puede deshacer.')) {
+      return;
+    }
+
+    setLimpiandoBD(true);
+    try {
+      const resultados = await Promise.all([
+        limpiarVacacionesVencidas(),
+        limpiarColaboradoresInactivos(), 
+        limpiarVacacionesHuerfanas()
+      ]);
+
+      const totalEliminados = resultados.reduce((sum, result) => sum + (result.eliminados || 0), 0);
+      
+      alert(`✅ Base de datos limpiada exitosamente!\n\nSe eliminaron ${totalEliminados} registros obsoletos.\n\nLos datos se actualizarán automáticamente.`);
+      
+      // Recargar datos
+      await cargarEstadisticasBD();
+      await cargarTurnos();
+    } catch (error) {
+      console.error('Error al limpiar BD:', error);
+      alert('❌ Error al limpiar la base de datos. Revisa la consola para más detalles.');
+    } finally {
+      setLimpiandoBD(false);
+    }
+  }
+
   useEffect(() => {
     cargarTurnos()
+    cargarEstadisticasBD()
     
     // Escuchar cambios en los datos para actualizar el dashboard
     const handleDataChange = () => {
@@ -39,12 +118,12 @@ const Dashboard = () => {
     }
   }, [fechaActual])
 
-  if (!turnosActuales) {
+  if (!turnosActuales || colaboradoresList.length === 0 || vacacionesList.length === 0) {
     return (
       <div className="loading-container">
         <div className="loading-spinner">
           <Activity size={32} />
-          <p>Cargando turnos...</p>
+          <p>Cargando datos del dashboard...</p>
         </div>
       </div>
     )
@@ -62,12 +141,10 @@ const Dashboard = () => {
   // Contar colaboradores de vacaciones incluyendo los que tienen reemplazo
   const lunes = turnosActuales.fechaInicio
   const domingo = turnosActuales.fechaFin
-  const colaboradoresList = cargarColaboradores()
-  const vacacionesList = cargarVacaciones()
   
   // Contar todos los colaboradores que están de vacaciones en esta semana
-  const colaboradoresEnVacaciones = colaboradoresList.filter(c => 
-    c.activo && vacacionesList.some(v => 
+  const colaboradoresEnVacaciones = (colaboradoresList || []).filter(c => 
+    c.activo && (vacacionesList || []).some(v => 
       v.colaboradorId === c.id &&
       v.activo &&
       new Date(v.fechaInicio) <= new Date(domingo) &&
@@ -78,10 +155,32 @@ const Dashboard = () => {
   const totalVacaciones = colaboradoresEnVacaciones.length
   const totalActivos = todosLosColaboradores.filter(c => !c.enVacaciones && !c.esReemplazo).length + 
                       todosLosColaboradores.filter(c => c.esReemplazo).length
-  const totalGeneral = colaboradoresList.filter(c => c.activo).length
+  const totalGeneral = (colaboradoresList || []).filter(c => c.activo).length
 
   return (
     <div>
+      {/* Título del Dashboard */}
+      <div style={{ 
+        marginBottom: '30px',
+        textAlign: 'center'
+      }}>
+        <h1 style={{ 
+          fontSize: '28px', 
+          color: '#495057', 
+          margin: '0 0 10px 0',
+          fontWeight: '600'
+        }}>
+          📊 Dashboard de Turnos
+        </h1>
+        <p style={{ 
+          color: '#6c757d', 
+          fontSize: '16px',
+          margin: 0
+        }}>
+          Resumen general del sistema de gestión de turnos
+        </p>
+      </div>
+
       {/* Estadísticas principales */}
       <div className="stats-grid" style={{ 
         marginBottom: '30px'
@@ -186,6 +285,38 @@ const Dashboard = () => {
           <p style={{ fontSize: '11px', opacity: 0.8, margin: 0 }}>
             Colaboradores activos
           </p>
+        </div>
+
+        {/* Tarjeta Estadísticas BD (simplificada: solo botón 'Limpiar BD') */}
+        <div className="card" style={{ 
+          background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', 
+          color: 'white',
+          textAlign: 'center',
+          padding: '20px'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <button 
+              onClick={limpiarBaseDatos}
+              disabled={limpiandoBD}
+              style={{
+                background: 'rgba(255,255,255,0.2)',
+                border: '1px solid rgba(255,255,255,0.3)',
+                color: 'white',
+                padding: '8px 14px',
+                borderRadius: '6px',
+                fontSize: '13px',
+                cursor: limpiandoBD ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s',
+                opacity: limpiandoBD ? 0.7 : 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <Trash2 size={14} />
+              {limpiandoBD ? 'Limpiando...' : 'Limpiar BD'}
+            </button>
+          </div>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import { Menu, Calendar, Users } from 'lucide-react'
-import { restaurarDatosOriginales } from '../services/turnosService'
+import React from 'react'
+import './Header.css'
 
 const Header = ({ onMenuClick }) => {
   const isMobile = typeof window !== 'undefined' ? window.innerWidth < 480 : false

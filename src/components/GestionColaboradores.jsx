@@ -5,10 +5,11 @@ import {
   guardarColaborador as guardarColaboradorService,
   actualizarColaborador,
   eliminarColaborador as eliminarColaboradorService,
-  restaurarDatosOriginales
-} from '../services/turnosService';
+  inicializarDatos
+} from '../services/turnosServiceFirebase';
 import { User, Phone, Building2, Users, UserPlus, Edit3, Trash2, Download, Search, Filter, RotateCcw } from 'lucide-react';
 import html2canvas from 'html2canvas';
+import eventBus, { EVENTS } from '../utils/eventBus';
 
 const GestionColaboradores = () => {
   const [colaboradores, setColaboradores] = useState([]);
@@ -37,40 +38,44 @@ const GestionColaboradores = () => {
   });
 
   useEffect(() => {
-    const cargarDatos = () => {
+    const cargarDatos = async () => {
       try {
-        const dataColaboradores = cargarColaboradores();
-        const dataVacaciones = cargarVacaciones();
-        setColaboradores(dataColaboradores);
-        setColaboradoresOriginales(dataColaboradores);
-        setVacaciones(dataVacaciones);
+        const dataColaboradores = await cargarColaboradores();
+        const dataVacaciones = await cargarVacaciones();
+        setColaboradores(dataColaboradores || []);
+        setColaboradoresOriginales(dataColaboradores || []);
+        setVacaciones(dataVacaciones || []);
       } catch (error) {
         console.error('Error al cargar datos:', error);
+        // En caso de error, asegurar que los estados sean arrays vacíos
+        setColaboradores([]);
+        setColaboradoresOriginales([]);
+        setVacaciones([]);
       } finally {
         setLoading(false);
       }
     };
 
     cargarDatos();
-    
-    // Escuchar cambios en los datos SOLO de otros componentes
-    const handleDataChange = (event) => {
-      // Evitar recargar si el cambio viene de este componente
-      if (event.detail?.source !== 'GestionColaboradores') {
-        cargarDatos();
-      }
-    };
 
-    window.addEventListener('turnosDataChanged', handleDataChange);
+    // 🔄 Listeners para actualizaciones en tiempo real
+    const unsubscribeColaboradores = eventBus.on(EVENTS.COLABORADORES_UPDATED, () => {
+      cargarDatos();
+    });
+
+    const unsubscribeVacaciones = eventBus.on(EVENTS.VACACIONES_UPDATED, () => {
+      cargarDatos();
+    });
 
     return () => {
-      window.removeEventListener('turnosDataChanged', handleDataChange);
+      unsubscribeColaboradores();
+      unsubscribeVacaciones();
     };
   }, []);
 
   const estaDeVacaciones = (colaboradorId) => {
     const hoy = new Date();
-    return vacaciones.some(v => 
+    return (vacaciones || []).some(v => 
       v.colaboradorId === colaboradorId &&
       v.activo &&
       new Date(v.fechaInicio) <= hoy &&
@@ -78,8 +83,8 @@ const GestionColaboradores = () => {
     );
   };
 
-  // Filtrar colaboradores
-  const colaboradoresFiltrados = colaboradores.filter(colaborador => {
+  // Filtrar colaboradores (con protección para arrays)
+  const colaboradoresFiltrados = (colaboradores || []).filter(colaborador => {
     const nombreMatch = colaborador.nombre.toLowerCase().includes(filtroNombre.toLowerCase());
     const unidadMatch = filtroUnidad === '' || colaborador.unidad.toLowerCase().includes(filtroUnidad.toLowerCase());
     const estadoMatch = filtroEstado === 'todos' || 

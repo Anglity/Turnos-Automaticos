@@ -1,53 +1,230 @@
-# Sistema de Turnos Automáticos - Guía Completa de Despliegue
+# Sistema de Turnos Automáticos BANFONDESA 🔄
 
-## 🚀 GUÍA PASO A PASO DETALLADA
+Sistema web para gestión automatizada de turnos de guardia con rotación inteligente, gestión de colaboradores y manejo de vacaciones.
 
-### REQUISITOS PREVIOS
+## ✨ Características
+
+- � **Dashboard Intuitivo**: Vista general del estado actual de turnos
+- 👥 **Gestión de Colaboradores**: CRUD completo con información de contacto y niveles
+- 🏖️ **Gestión de Vacaciones**: Control de ausencias con validaciones automáticas
+- 🔄 **Turnos Automatizados**: Generación automática con rotación por grupos y niveles
+- ☁️ **Almacenamiento en la Nube**: Persistencia con Firebase Firestore
+- 🎨 **Interfaz Moderna**: Diseño responsivo con React y CSS moderno
+
+## 🚀 REQUISITOS PREVIOS
+
 - ✅ Node.js (versión 16 o superior) - [Descargar aquí](https://nodejs.org/)
-- ✅ Nginx (solo para producción) - [Descargar aquí](https://nginx.org/en/download.html)
-- ✅ Editor de texto (VS Code recomendado)
+- ✅ Cuenta de Firebase - [Crear cuenta](https://console.firebase.google.com/)
+- ✅ Editor de código (VS Code recomendado)
 
 ---
 
-## 📋 PASO 1: PREPARAR EL PROYECTO
+## 📋 INSTALACIÓN Y CONFIGURACIÓN
 
-### 1.1 Abrir Terminal en la Carpeta del Proyecto
+### 1. Clonar o Descargar el Proyecto
 ```bash
-# Navegar a la carpeta (cambiar por tu ruta real)
-cd "C:\Users\tu-usuario\Desktop\Turnos Automaticos"
+# Navegar a la carpeta del proyecto
+cd "C:\ruta\a\tu\proyecto\Turnos Automaticos"
 ```
 
-### 1.2 Instalar Dependencias
+### 2. Instalar Dependencias
 ```bash
-# Ejecutar este comando y esperar a que termine
+# Instalar todas las dependencias necesarias
 npm install
 ```
 **⏱️ Tiempo estimado:** 2-3 minutos
 
----
+### 3. Configurar Firebase
+1. Ir a [Firebase Console](https://console.firebase.google.com/)
+2. Crear un nuevo proyecto llamado "turnos-automaticos"
+3. Activar Firestore Database en modo de prueba
+4. Registrar una aplicación web
+5. Copiar las credenciales de configuración
 
-## 📋 PASO 2: CONFIGURAR PARA ACCESO DESDE RED
+### 4. Actualizar Credenciales
+Editar `src/services/firebaseConfig.js` con tus credenciales reales:
 
-### 2.1 Obtener tu IP Local
-```bash
-# En Windows - Ejecutar en CMD o PowerShell
-ipconfig
-
-# Buscar esta línea:
-# IPv4 Address. . . . . . . . . . . : 192.168.1.XXX
-# Anotar esa IP (ejemplo: 192.168.1.150)
+```javascript
+const firebaseConfig = {
+  apiKey: "tu-api-key",
+  authDomain: "tu-proyecto.firebaseapp.com",
+  projectId: "tu-proyecto",
+  storageBucket: "tu-proyecto.firebasestorage.app",
+  messagingSenderId: "123456789",
+  appId: "tu-app-id"
+};
 ```
 
-### 2.2 Editar Configuración de Vite
-**📁 Abrir archivo:** `vite.config.js`
+---
 
-**🔍 Buscar esta sección:**
+## � EJECUCIÓN
+
+### Modo Desarrollo
+```bash
+# Ejecutar servidor de desarrollo
+npm run dev
+```
+La aplicación se abrirá en: `http://localhost:3000`
+
+### Acceso desde Red Local
+Si quieres que otros dispositivos en tu red local puedan acceder:
+
+1. Editar `vite.config.js`:
 ```javascript
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5173,        // LÍNEA A CAMBIAR
-    host: 'localhost'  // LÍNEA A CAMBIAR
+    port: 3000,
+    host: '0.0.0.0'  // Permite acceso desde red
+  }
+})
+```
+
+2. Obtener tu IP local:
+```bash
+# Windows
+ipconfig
+
+# Buscar: IPv4 Address. . . . . . . . . . . : 192.168.1.XXX
+```
+
+3. Otros dispositivos pueden acceder en: `http://TU-IP:3000`
+
+---
+
+## 📊 ESTRUCTURA DEL PROYECTO
+
+```
+src/
+├── components/           # Componentes React
+│   ├── Dashboard.jsx    # Página principal
+│   ├── GenerarTurnos.jsx# Generación automática de turnos
+│   ├── GestionColaboradores.jsx  # CRUD colaboradores
+│   ├── GestionVacaciones.jsx     # Gestión de vacaciones
+│   └── ...
+├── services/            # Servicios de datos
+│   ├── firebaseConfig.js      # Configuración Firebase
+│   ├── firebaseService.js     # Servicio principal de datos
+│   └── turnosServiceFirebase.js # Interface de turnos
+└── utils/               # Utilidades
+    └── fechas.js        # Funciones para fechas
+```
+
+---
+
+## �️ FUNCIONALIDADES
+
+### Dashboard
+- Vista general del sistema
+- Estado actual de turnos
+- Colaboradores activos
+- Próximas vacaciones
+
+### Gestión de Colaboradores
+- ➕ Agregar nuevos colaboradores
+- ✏️ Editar información existente
+- 🗑️ Eliminar colaboradores
+- 📱 Información de contacto completa
+- 🏷️ Asignación de grupos y niveles
+
+### Gestión de Vacaciones
+- 📅 Programar períodos de vacaciones
+- ✅ Validaciones automáticas de fechas
+- 🔍 Búsqueda y filtrado
+- 📊 Vista de calendar de ausencias
+
+### Generación de Turnos
+- 🤖 Algoritmo inteligente de rotación
+- 👨‍💼 Respeta jerarquías y niveles
+- 🏖️ Considera vacaciones automáticamente
+- 📋 Genera horarios semanales completos
+
+---
+
+## 💾 DATOS Y PERSISTENCIA
+
+- **Firebase Firestore**: Base de datos en la nube
+- **Inicialización Automática**: Datos base se crean automáticamente
+- **Limpieza Automática**: Registros antiguos se eliminan periódicamente
+- **Respaldo en Tiempo Real**: Sincronización instantánea
+
+---
+
+## 🔧 CONFIGURACIÓN AVANZADA
+
+### Variables de Entorno (Opcional)
+Crear archivo `.env` en la raíz:
+```env
+VITE_FIREBASE_API_KEY=tu-api-key
+VITE_FIREBASE_AUTH_DOMAIN=tu-proyecto.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=tu-proyecto
+---
+
+## 🚨 SOLUCIÓN DE PROBLEMAS
+
+### Error: Firebase no está configurado
+- ✅ Verificar que las credenciales en `firebaseConfig.js` sean correctas
+- ✅ Confirmar que Firestore esté activado en Firebase Console
+- ✅ Verificar que las reglas de Firestore permitan lectura/escritura
+
+### Error: Puerto en uso
+```bash
+# Si el puerto 3000 está ocupado, usar otro:
+npm run dev -- --port 3001
+```
+
+### Error: No se pueden agregar datos
+- ✅ Verificar conexión a internet
+- ✅ Revisar reglas de Firestore
+- ✅ Confirmar que el proyecto de Firebase esté activo
+
+### Limpiar caché del navegador
+```bash
+# Ctrl + Shift + R (Windows/Linux)
+# Cmd + Shift + R (Mac)
+```
+
+---
+
+## 📞 SOPORTE TÉCNICO
+
+### Información del Proyecto
+- **Versión**: 1.0.0
+- **Tecnología**: React + Vite + Firebase
+- **Compatibilidad**: Navegadores modernos (Chrome, Firefox, Safari, Edge)
+- **Responsivo**: ✅ Funciona en móviles y tablets
+
+### Contacto para Soporte
+- **Sistema**: Turnos Automáticos BANFONDESA
+- **Desarrollado para**: Departamento de TI
+- **Última actualización**: Septiembre 2025
+
+---
+
+## 📝 LICENCIA Y USO
+
+Este sistema fue desarrollado específicamente para BANFONDESA y su uso está restringido para operaciones internas de la institución.
+
+### Características del Sistema
+- ✅ **Altamente Confiable**: Persistencia en la nube con respaldo automático
+- ✅ **Escalable**: Soporta crecimiento de usuarios y datos
+- ✅ **Intuitivo**: Interfaz fácil de usar para todo el personal
+- ✅ **Automatizado**: Reduce errores manuales en la asignación de turnos
+- ✅ **Trazable**: Historial completo de cambios y asignaciones
+
+---
+
+## 🎯 PRÓXIMAS FUNCIONALIDADES
+
+- [ ] Sistema de notificaciones por email
+- [ ] Integración con calendario de Outlook
+- [ ] Reportes avanzados en PDF/Excel
+- [ ] Aplicación móvil nativa
+- [ ] Sistema de autenticación avanzado
+
+---
+
+**¡Listo para usar! 🚀**
   }
 })
 ```

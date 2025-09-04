@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Plane, Plus, Calendar, User, Edit3 } from 'lucide-react'
+import { Plus, Calendar, User, Edit3, Plane } from 'lucide-react'
 import { 
   cargarColaboradores, 
   cargarVacaciones, 
   guardarVacaciones,
   actualizarVacaciones,
   eliminarVacaciones
-} from '../services/turnosService'
+} from '../services/turnosServiceFirebase'
+import eventBus, { EVENTS } from '../utils/eventBus'
 
 const GestionVacaciones = () => {
   const [colaboradores, setColaboradores] = useState([])
@@ -23,10 +24,10 @@ const GestionVacaciones = () => {
 
   // Cargar datos al montar el componente
   useEffect(() => {
-    const cargarDatos = () => {
+    const cargarDatos = async () => {
       try {
-        const dataColaboradores = cargarColaboradores().filter(c => c.activo);
-        const dataVacaciones = cargarVacaciones();
+        const dataColaboradores = (await cargarColaboradores()).filter(c => c.activo);
+        const dataVacaciones = await cargarVacaciones();
         setColaboradores(dataColaboradores);
         setVacaciones(dataVacaciones);
       } catch (error) {
@@ -35,19 +36,19 @@ const GestionVacaciones = () => {
     };
 
     cargarDatos();
-    
-    // Escuchar cambios en los datos SOLO de otros componentes
-    const handleDataChange = (event) => {
-      // Evitar recargar si el cambio viene de este componente
-      if (event.detail?.source !== 'GestionVacaciones') {
-        cargarDatos();
-      }
-    };
 
-    window.addEventListener('turnosDataChanged', handleDataChange);
+    // 🔄 Listeners para actualizaciones en tiempo real
+    const unsubscribeColaboradores = eventBus.on(EVENTS.COLABORADORES_UPDATED, () => {
+      cargarDatos();
+    });
+
+    const unsubscribeVacaciones = eventBus.on(EVENTS.VACACIONES_UPDATED, () => {
+      cargarDatos();
+    });
 
     return () => {
-      window.removeEventListener('turnosDataChanged', handleDataChange);
+      unsubscribeColaboradores();
+      unsubscribeVacaciones();
     };
   }, []);
 
@@ -57,8 +58,8 @@ const GestionVacaciones = () => {
       setVacacionesEditando(vacacionParaEditar);
       setNuevasVacaciones({
         colaboradorId: vacacionParaEditar.colaboradorId.toString(),
-        fechaInicio: vacacionParaEditar.fechaInicio,
-        fechaFin: vacacionParaEditar.fechaFin,
+        fechaInicio: fechaToString(vacacionParaEditar.fechaInicio),
+        fechaFin: fechaToString(vacacionParaEditar.fechaFin),
         motivo: vacacionParaEditar.motivo
       });
     } else {
@@ -89,7 +90,29 @@ const GestionVacaciones = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     
-    if (new Date(nuevasVacaciones.fechaInicio) >= new Date(nuevasVacaciones.fechaFin)) {
+    // Validaciones
+    if (!nuevasVacaciones.colaboradorId) {
+      alert('Por favor selecciona un colaborador');
+      return;
+    }
+    
+    if (!nuevasVacaciones.fechaInicio) {
+      alert('Por favor selecciona una fecha de inicio');
+      return;
+    }
+    
+    if (!nuevasVacaciones.fechaFin) {
+      alert('Por favor selecciona una fecha de fin');
+      return;
+    }
+    
+    // Validar que la fecha de fin sea posterior a la fecha de inicio usando fechas locales
+    const [yearInicio, monthInicio, dayInicio] = nuevasVacaciones.fechaInicio.split('-');
+    const [yearFin, monthFin, dayFin] = nuevasVacaciones.fechaFin.split('-');
+    const fechaInicio = new Date(yearInicio, monthInicio - 1, dayInicio);
+    const fechaFin = new Date(yearFin, monthFin - 1, dayFin);
+    
+    if (fechaInicio >= fechaFin) {
       alert('La fecha de fin debe ser posterior a la fecha de inicio')
       return
     }
@@ -100,10 +123,10 @@ const GestionVacaciones = () => {
         const vacacionesActualizadas = {
           ...vacacionesEditando,
           ...nuevasVacaciones,
-          colaboradorId: parseInt(nuevasVacaciones.colaboradorId)
+          colaboradorId: nuevasVacaciones.colaboradorId // Mantener como string
         };
 
-        const resultado = await actualizarVacaciones(vacacionesActualizadas);
+        const resultado = await actualizarVacaciones(vacacionesEditando.id, vacacionesActualizadas);
         if (resultado) {
           setVacaciones(prev => 
             prev.map(v => v.id === vacacionesEditando.id ? resultado : v)
@@ -113,7 +136,7 @@ const GestionVacaciones = () => {
         // Agregar nuevas vacaciones
         const vacacionesData = {
           ...nuevasVacaciones,
-          colaboradorId: parseInt(nuevasVacaciones.colaboradorId),
+          colaboradorId: nuevasVacaciones.colaboradorId, // Mantener como string
           activo: true
         };
 
@@ -135,7 +158,7 @@ const GestionVacaciones = () => {
         const vacacionActualizada = vacaciones.find(v => v.id === vacacionId);
         if (vacacionActualizada) {
           const vacacionCancelada = { ...vacacionActualizada, activo: false };
-          await actualizarVacaciones(vacacionCancelada);
+          await actualizarVacaciones(vacacionId, vacacionCancelada);
           setVacaciones(prev => 
             prev.map(v => v.id === vacacionId ? vacacionCancelada : v)
           );
@@ -157,21 +180,79 @@ const GestionVacaciones = () => {
     colaborador: colaboradores.find(c => c.id === v.colaboradorId)
   }))
 
+  // Helper para convertir fecha a string formato YYYY-MM-DD sin importar el tipo
+  const fechaToString = (fecha) => {
+    if (!fecha) return '';
+    
+    // Si ya es un string en formato correcto, devolverlo tal como está
+    if (typeof fecha === 'string' && fecha.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      return fecha;
+    }
+    
+    // Si es un objeto Date o Timestamp de Firebase (fallback para datos existentes)
+    let fechaObj;
+    if (fecha.toDate && typeof fecha.toDate === 'function') {
+      // Timestamp de Firebase
+      fechaObj = fecha.toDate();
+    } else if (fecha instanceof Date) {
+      // Objeto Date
+      fechaObj = fecha;
+    } else if (typeof fecha === 'string') {
+      // String que no está en formato correcto
+      fechaObj = new Date(fecha);
+    } else {
+      // Fallback
+      fechaObj = new Date(fecha);
+    }
+    
+    // Convertir a formato YYYY-MM-DD usando fechas locales
+    const year = fechaObj.getFullYear();
+    const month = String(fechaObj.getMonth() + 1).padStart(2, '0');
+    const day = String(fechaObj.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const calcularDias = (fechaInicio, fechaFin) => {
-    const inicio = new Date(fechaInicio)
-    const fin = new Date(fechaFin)
+    // Convertir fechas a string primero
+    const fechaInicioStr = fechaToString(fechaInicio);
+    const fechaFinStr = fechaToString(fechaFin);
+    
+    if (!fechaInicioStr || !fechaFinStr) return 0;
+    
+    // Crear fechas locales para evitar problemas de timezone
+    const [yearInicio, monthInicio, dayInicio] = fechaInicioStr.split('-');
+    const [yearFin, monthFin, dayFin] = fechaFinStr.split('-');
+    const inicio = new Date(yearInicio, monthInicio - 1, dayInicio)
+    const fin = new Date(yearFin, monthFin - 1, dayFin)
     const diferencia = fin - inicio
     return Math.ceil(diferencia / (1000 * 60 * 60 * 24)) + 1
   }
 
   const formatearFecha = (fecha) => {
-    return new Date(fecha).toLocaleDateString('es-ES')
+    // Convertir fecha a string primero
+    const fechaStr = fechaToString(fecha);
+    if (!fechaStr) return '';
+    
+    // Crear fecha local para evitar problemas de timezone
+    const [year, month, day] = fechaStr.split('-');
+    const fechaLocal = new Date(year, month - 1, day);
+    return fechaLocal.toLocaleDateString('es-ES')
   }
 
   const esVacacionActiva = (vacacion) => {
     const hoy = new Date()
-    const inicio = new Date(vacacion.fechaInicio)
-    const fin = new Date(vacacion.fechaFin)
+    
+    // Convertir fechas a string primero
+    const fechaInicioStr = fechaToString(vacacion.fechaInicio);
+    const fechaFinStr = fechaToString(vacacion.fechaFin);
+    
+    if (!fechaInicioStr || !fechaFinStr) return false;
+    
+    // Crear fechas locales para evitar problemas de timezone
+    const [yearInicio, monthInicio, dayInicio] = fechaInicioStr.split('-');
+    const [yearFin, monthFin, dayFin] = fechaFinStr.split('-');
+    const inicio = new Date(yearInicio, monthInicio - 1, dayInicio)
+    const fin = new Date(yearFin, monthFin - 1, dayFin)
     return hoy >= inicio && hoy <= fin
   }
 
