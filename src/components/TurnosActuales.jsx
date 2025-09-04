@@ -27,7 +27,8 @@ const TurnosActuales = () => {
         const turnos = await generarTurnosPorSemana(fechaActual)
         const lunes = obtenerLunesDelamSemana(fechaActual)
         const domingo = obtenerDomingoDeLaSemana(fechaActual)
-        const turnosConReemplazos = await aplicarReemplazos(turnos, lunes, domingo)
+  // Pasar la lista de colaboradores ya cargada para evitar reconsultas innecesarias
+  const turnosConReemplazos = await aplicarReemplazos(turnos, lunes, domingo, colaboradores.length ? colaboradores : null)
         
         setTurnosActuales({
           ...turnosConReemplazos,
@@ -439,10 +440,10 @@ const TurnosActuales = () => {
                   <table className="turnos-tabla moderna">
                     <thead>
               <tr>
-                <th style={{ textAlign: 'center' }}>👤 Colaborador</th>
-                <th style={{ textAlign: 'center' }}>🏢 Unidad</th>
-                <th style={{ textAlign: 'center' }}>📞 Teléfono</th>
-                <th style={{ textAlign: 'center' }}>📅 Vacaciones</th>
+                <th className="table-header" style={{ textAlign: 'center' }}>👤 Colaborador</th>
+                <th className="table-header" style={{ textAlign: 'center' }}>🏢 Unidad</th>
+                <th className="table-header" style={{ textAlign: 'center' }}>📞 Teléfono</th>
+                <th className="table-header" style={{ textAlign: 'center' }}>📅 Vacaciones</th>
                 {/* Estado oculto */}
               </tr>
                     </thead>
@@ -466,9 +467,7 @@ const TurnosActuales = () => {
                                 </div>
                               </div>
                             </td>
-                            <td className="unidad-info">
-                              <span className="unidad-badge">{colaborador.unidad}</span>
-                            </td>
+                            <td className="unidad-info">{colaborador.unidad}</td>
                             <td className="telefono-info">
                               <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                                 {colaborador.telefono}
@@ -519,12 +518,12 @@ const TurnosActuales = () => {
                     <table className="turnos-tabla moderna">
                       <thead>
                         <tr>
-                          <th style={{ textAlign: 'center' }}>👤 Colaborador</th>
-                          <th style={{ textAlign: 'center' }}>🏢 Unidad</th>
-                          <th style={{ textAlign: 'center' }}>📞 Teléfono</th>
+                          <th className="table-header" style={{ textAlign: 'center' }}>👤 Colaborador</th>
+                          <th className="table-header" style={{ textAlign: 'center' }}>🏢 Unidad</th>
+                          <th className="table-header" style={{ textAlign: 'center' }}>📞 Teléfono</th>
                           {/* Para el primer nivel sustituimos Estado por Descripción; para otros niveles simplemente ocultamos Estado */}
                           {parseInt(nivel) === 1 ? (
-                            <th style={{ textAlign: 'center' }}>Descripción</th>
+                            <th className="table-header" style={{ textAlign: 'center' }}>Descripción</th>
                           ) : null}
                         </tr>
                       </thead>
@@ -548,9 +547,7 @@ const TurnosActuales = () => {
                                   )}
                                 </div>
                               </td>
-                              <td className="unidad-info">
-                                <span className="unidad-badge">{colaborador.unidad}</span>
-                              </td>
+                              <td className="unidad-info">{colaborador.unidad}</td>
                               <td className="telefono-info">
                                 <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                                   {colaborador.telefono}

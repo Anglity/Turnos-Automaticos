@@ -213,19 +213,28 @@ const GestionVacaciones = () => {
   };
 
   const calcularDias = (fechaInicio, fechaFin) => {
-    // Convertir fechas a string primero
+    // Contar solo días laborables (lunes-viernes), inclusivo
     const fechaInicioStr = fechaToString(fechaInicio);
     const fechaFinStr = fechaToString(fechaFin);
-    
+
     if (!fechaInicioStr || !fechaFinStr) return 0;
-    
-    // Crear fechas locales para evitar problemas de timezone
+
     const [yearInicio, monthInicio, dayInicio] = fechaInicioStr.split('-');
     const [yearFin, monthFin, dayFin] = fechaFinStr.split('-');
-    const inicio = new Date(yearInicio, monthInicio - 1, dayInicio)
-    const fin = new Date(yearFin, monthFin - 1, dayFin)
-    const diferencia = fin - inicio
-    return Math.ceil(diferencia / (1000 * 60 * 60 * 24)) + 1
+    let inicio = new Date(yearInicio, monthInicio - 1, dayInicio);
+    let fin = new Date(yearFin, monthFin - 1, dayFin);
+
+    // Si la fecha fin es anterior a la de inicio, devolver 0
+    if (fin < inicio) return 0;
+
+    let contador = 0;
+    const fechaActual = new Date(inicio);
+    while (fechaActual <= fin) {
+      const dia = fechaActual.getDay(); // 0 = domingo, 6 = sábado
+      if (dia !== 0 && dia !== 6) contador++;
+      fechaActual.setDate(fechaActual.getDate() + 1);
+    }
+    return contador;
   }
 
   const formatearFecha = (fecha) => {
@@ -317,14 +326,14 @@ const GestionVacaciones = () => {
           <table className="turnos-tabla">
             <thead>
               <tr>
-                <th>Colaborador</th>
-                <th>Unidad</th>
-                <th>Fecha Inicio</th>
-                <th>Fecha Fin</th>
-                <th>Días</th>
-                <th>Motivo</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th className="table-header">👤 Colaborador</th>
+                <th className="table-header">🏢 Unidad</th>
+                <th className="table-header">📅 Fecha Inicio</th>
+                <th className="table-header">📅 Fecha Fin</th>
+                <th className="table-header">Días</th>
+                <th className="table-header">Motivo</th>
+                <th className="table-header">Estado</th>
+                <th className="table-header">Acciones</th>
               </tr>
             </thead>
             <tbody>

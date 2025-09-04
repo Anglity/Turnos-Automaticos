@@ -260,7 +260,8 @@ export const generarTurnosPorSemana = async (fechaConsulta) => {
     const colaboradores = await cargarColaboradores();
     const config = await cargarConfiguracion();
     
-  const numeroSemana = calcularSemanaDeRotacion(fechaConsulta, '2025-08-26');
+  // Ajuste: Usar '2025-08-25' como referencia para que la semana del 1 al 7 de septiembre sea la semana 2
+  const numeroSemana = calcularSemanaDeRotacion(fechaConsulta, '2025-08-25');
     const grupoEnNivel1 = determinarGrupoEnNivel1(numeroSemana, config.grupoInicialNivel1);
     
     // Separar colaboradores por grupo y nivel
@@ -292,7 +293,7 @@ export const generarTurnosPorSemana = async (fechaConsulta) => {
 };
 
 // Aplicar reemplazos por vacaciones
-export const aplicarReemplazos = async (turnos, fechaInicio, fechaFin) => {
+export const aplicarReemplazos = async (turnos, fechaInicio, fechaFin, colaboradoresParam = null) => {
   try {
     // Validar que turnos tenga la estructura correcta
     if (!turnos || !Array.isArray(turnos.nivel1) || !Array.isArray(turnos.nivel2) || !Array.isArray(turnos.nivel3)) {
@@ -306,7 +307,8 @@ export const aplicarReemplazos = async (turnos, fechaInicio, fechaFin) => {
       };
     }
 
-    const colaboradores = await cargarColaboradores();
+    // Usar colaboradores ya cargados si se pasan como parámetro para evitar refetchs
+    const colaboradores = colaboradoresParam || await cargarColaboradores();
     let nivel1Final = [...turnos.nivel1];
     let nivel2Final = [...turnos.nivel2];
     let nivel3Final = [...turnos.nivel3];
@@ -387,8 +389,8 @@ export const limpiarDuplicados = async () => {
   }
 };
 
-// Inicializar automáticamente al importar
-inicializarDatos().catch(console.error);
+// Inicializar automáticamente al importar (DESACTIVADO para evitar duplicados)
+// inicializarDatos().catch(console.error);
 
 // 🧹 FUNCIONES DE LIMPIEZA AUTOMÁTICA DE BASE DE DATOS
 export const limpiarVacacionesVencidas = async () => {

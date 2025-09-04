@@ -398,6 +398,55 @@ body {
   background-color: #f8f9fa;
 }
 
+/* Encabezado de tabla unificado */
+.table-header {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  text-transform: none;
+  padding: 12px 10px;
+}
+
+/* Forzar tamaño y apariencia uniforme para todos los encabezados de tablas */
+.table-header,
+.turnos-tabla th,
+.turnos-tabla.moderna th,
+.turnos-tabla.simple th,
+.tabla-colaboradores-moderna th,
+.gestion-vacaciones .turnos-tabla th,
+.gestion-colaboradores .turnos-tabla th {
+  font-size: 16px;
+  font-weight: 600;
+  color: #495057;
+  padding: 12px 10px;
+}
+
+@media (max-width: 576px) {
+  .table-header,
+  .turnos-tabla th,
+  .turnos-tabla.moderna th,
+  .turnos-tabla.simple th,
+  .tabla-colaboradores-moderna th {
+    font-size: 14px;
+    padding: 10px 8px;
+  }
+}
+
+/* Aplicar a todos los th para capturar encabezados que no tengan la clase específica */
+table th {
+  font-size: 16px;
+  font-weight: 600;
+  color: #495057;
+  padding: 12px 10px;
+}
+
+@media (max-width: 576px) {
+  table th {
+    font-size: 14px;
+    padding: 10px 8px;
+  }
+}
+
 /* Estilos para colaboradores de vacaciones */
 .colaborador-vacaciones {
   background-color: #fff3cd !important;
@@ -1230,7 +1279,13 @@ h3 {
 
 .nivel-nombre {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 24px;
+}
+
+@media (max-width: 576px) {
+  .nivel-nombre {
+    font-size: 16px; /* reducir en móviles muy pequeños */
+  }
 }
 
 .nivel-contador {
@@ -1284,14 +1339,14 @@ h3 {
 }
 
 .unidad-badge {
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-  color: #1565c0;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 600;
-  white-space: nowrap;
-  display: inline-block;
+  /* estilo neutralizado: mostrar como texto normal (sin fondo ni bordes) */
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  font-weight: normal;
+  display: inline;
 }
 
 .telefono-link {
@@ -1432,11 +1487,11 @@ h3 {
 
 /* Estilos específicos para elementos dentro de la tabla de vacaciones */
 .vacaciones-section .unidad-badge {
-  font-size: 15px;
-  padding: 8px 12px;
-  white-space: nowrap;
-  display: inline-block;
-  max-width: none;
+  /* mantener texto normal en sección de vacaciones */
+  background: transparent;
+  padding: 0;
+  display: inline;
+  font-size: inherit;
 }
 
 .vacaciones-section .telefono-link {
@@ -2896,8 +2951,8 @@ h3 {
   }
   
   .unidad-badge {
-    font-size: 9px;
-    padding: 2px 4px;
+    font-size: inherit;
+    padding: 0;
   }
   
   .turnos-header {

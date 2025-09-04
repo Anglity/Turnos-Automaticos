@@ -450,22 +450,22 @@ const GestionColaboradores = () => {
             <table className="tabla-colaboradores-moderna">
               <thead>
                 <tr>
-                  <th>
+                  <th className="table-header">
                     <User size={16} />
-                    Colaborador
+                    👤 Colaborador
                   </th>
-                  <th>
+                  <th className="table-header">
                     <Building2 size={16} />
-                    Unidad
+                    🏢 Unidad
                   </th>
-                  <th>
+                  <th className="table-header">
                     <Phone size={16} />
-                    Teléfono
+                    📞 Teléfono
                   </th>
-                  <th>Grupo</th>
-                  <th>Nivel</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
+                  <th className="table-header">Grupo</th>
+                  <th className="table-header">Nivel</th>
+                  <th className="table-header">Estado</th>
+                  <th className="table-header">Acciones</th>
                 </tr>
               </thead>
               <tbody>

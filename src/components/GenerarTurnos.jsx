@@ -94,7 +94,7 @@ const GenerarTurnos = () => {
       const turnos = await generarTurnosPorSemana(fechaObj)
       const lunes = obtenerLunesDelamSemana(fechaObj)
       const domingo = obtenerDomingoDeLaSemana(fechaObj)
-      const turnosConReemplazos = await aplicarReemplazos(turnos, lunes, domingo)
+  const turnosConReemplazos = await aplicarReemplazos(turnos, lunes, domingo, colaboradores.length ? colaboradores : null)
       
       setTurnosGenerados({
         ...turnosConReemplazos,
@@ -528,10 +528,10 @@ const GenerarTurnos = () => {
                   <table className="turnos-tabla moderna">
                     <thead>
                       <tr>
-                        <th style={{ textAlign: 'center' }}>👤 Colaborador</th>
-                        <th style={{ textAlign: 'center' }}>🏢 Unidad</th>
-                        <th style={{ textAlign: 'center' }}>📞 Teléfono</th>
-                        <th style={{ textAlign: 'center' }}>📅 Vacaciones</th>
+                        <th className="table-header" style={{ textAlign: 'center' }}>👤 Colaborador</th>
+                        <th className="table-header" style={{ textAlign: 'center' }}>🏢 Unidad</th>
+                        <th className="table-header" style={{ textAlign: 'center' }}>📞 Teléfono</th>
+                        <th className="table-header" style={{ textAlign: 'center' }}>📅 Vacaciones</th>
                         <th style={{ textAlign: 'center' }}>📊 Estado</th>
                       </tr>
                     </thead>
@@ -561,9 +561,7 @@ const GenerarTurnos = () => {
                                 {colaborador.nombre}
                               </div>
                             </td>
-                            <td className="unidad-info">
-                              <span className="unidad-badge">{colaborador.unidad}</span>
-                            </td>
+                            <td className="unidad-info">{colaborador.unidad}</td>
                             <td className="telefono-info">
                               <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                                 {colaborador.telefono}
@@ -618,10 +616,10 @@ const GenerarTurnos = () => {
                       <table className="turnos-tabla moderna">
                         <thead>
                           <tr>
-                            <th style={{ textAlign: 'center' }}>👤 Colaborador</th>
-                            <th style={{ textAlign: 'center' }}>🏢 Unidad</th>
-                            <th style={{ textAlign: 'center' }}>📞 Teléfono</th>
-                            <th style={{ textAlign: 'center' }}>📊 Estado</th>
+                            <th className="table-header" style={{ textAlign: 'center' }}>👤 Colaborador</th>
+                            <th className="table-header" style={{ textAlign: 'center' }}>🏢 Unidad</th>
+                            <th className="table-header" style={{ textAlign: 'center' }}>📞 Teléfono</th>
+                            <th className="table-header" style={{ textAlign: 'center' }}>📊 Estado</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -644,9 +642,7 @@ const GenerarTurnos = () => {
                                     )}
                                   </div>
                                 </td>
-                                <td className="unidad-info">
-                                  <span className="unidad-badge">{colaborador.unidad}</span>
-                                </td>
+                                <td className="unidad-info">{colaborador.unidad}</td>
                                 <td className="telefono-info">
                                   <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                                     {colaborador.telefono}

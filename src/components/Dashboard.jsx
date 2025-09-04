@@ -6,8 +6,8 @@ import { obtenerLunesDelamSemana, obtenerDomingoDeLaSemana, formatearRangoSemana
 const Dashboard = () => {
   const [turnosActuales, setTurnosActuales] = useState(null)
   const [fechaActual, setFechaActual] = useState(new Date())
-  const [colaboradoresList, setColaboradoresList] = useState([])
-  const [vacacionesList, setVacacionesList] = useState([])
+  const [colaboradoresList, setColaboradoresList] = useState(null)
+  const [vacacionesList, setVacacionesList] = useState(null)
   const [estadisticasBD, setEstadisticasBD] = useState({
     colaboradores: 0,
     vacaciones: 0,
@@ -41,11 +41,14 @@ const Dashboard = () => {
 
   const cargarTurnos = async () => {
     try {
+      // Generar turnos usando los colaboradores ya cargados para evitar fetchs duplicados
       const turnos = await generarTurnosPorSemana(fechaActual)
       const lunes = obtenerLunesDelamSemana(fechaActual)
       const domingo = obtenerDomingoDeLaSemana(fechaActual)
-      const turnosConReemplazos = await aplicarReemplazos(turnos, lunes, domingo)
-      
+  // Evitar acceder a .length si colaboradoresList aún es null
+  const colaboradoresParam = Array.isArray(colaboradoresList) && colaboradoresList.length ? colaboradoresList : null
+  const turnosConReemplazos = await aplicarReemplazos(turnos, lunes, domingo, colaboradoresParam)
+
       setTurnosActuales({
         ...turnosConReemplazos,
         fechaInicio: lunes,
@@ -58,11 +61,12 @@ const Dashboard = () => {
 
   const cargarEstadisticasBD = async () => {
     try {
-      const colaboradores = await cargarColaboradores()
-      const vacaciones = await cargarVacaciones()
+  const colaboradores = await cargarColaboradores()
+  const vacaciones = await cargarVacaciones()
       
-      setColaboradoresList(colaboradores)
-      setVacacionesList(vacaciones)
+  // Garantizar arrays (aunque vacíos) para indicar que ya se cargaron
+  setColaboradoresList(Array.isArray(colaboradores) ? colaboradores : [])
+  setVacacionesList(Array.isArray(vacaciones) ? vacaciones : [])
       
       setEstadisticasBD({
         colaboradores: colaboradores.length,
@@ -103,12 +107,18 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    cargarTurnos()
-    cargarEstadisticasBD()
+    // Cargar colaboradores y vacaciones primero, luego generar los turnos usando esos datos
+    const inicializar = async () => {
+      await cargarEstadisticasBD()
+      await cargarTurnos()
+    }
+    inicializar()
     
     // Escuchar cambios en los datos para actualizar el dashboard
-    const handleDataChange = () => {
-      cargarTurnos()
+    const handleDataChange = async () => {
+      // Solo recargar lo necesario: estadísticas y turnos en orden
+      await cargarEstadisticasBD()
+      await cargarTurnos()
     }
 
     window.addEventListener('turnosDataChanged', handleDataChange)
@@ -118,7 +128,8 @@ const Dashboard = () => {
     }
   }, [fechaActual])
 
-  if (!turnosActuales || colaboradoresList.length === 0 || vacacionesList.length === 0) {
+  // Mostrar loading mientras no se hayan cargado los datos (null = no cargado)
+  if (!turnosActuales || colaboradoresList === null || vacacionesList === null) {
     return (
       <div className="loading-container">
         <div className="loading-spinner">
@@ -161,7 +172,7 @@ const Dashboard = () => {
   const cargarDescripcion = (unidad) => {
     switch ((unidad || '').trim()) {
       case 'Infraestructura & Cloud':
-        return 'Para problemas con: plataforma, servidores, conectividad, o equipos de cómputo.'
+        return 'Para problemas con: plataforma, servidores, Y equipos de cómputo.'
       case 'Comunicaciones':
         return 'Para problemas con: red, flota, o telefonía fija.'
       case 'Gestión de Datos':
@@ -359,10 +370,10 @@ const Dashboard = () => {
               <table className="turnos-tabla moderna">
                 <thead>
                   <tr>
-                    <th>👤 Colaborador</th>
-                    <th>🏢 Unidad</th>
-                    <th>📞 Teléfono</th>
-                    <th>Descripción</th>
+                    <th className="table-header">👤 Colaborador</th>
+                    <th className="table-header">🏢 Unidad</th>
+                    <th className="table-header">📞 Teléfono</th>
+                    <th className="table-header">Descripción</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -378,9 +389,7 @@ const Dashboard = () => {
                           )}
                         </div>
                       </td>
-                      <td className="unidad-info">
-                        <span className="unidad-badge">{colaborador.unidad}</span>
-                      </td>
+                      <td className="unidad-info">{colaborador.unidad}</td>
                       <td className="telefono-info">
                         <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                           {colaborador.telefono}
@@ -425,9 +434,7 @@ const Dashboard = () => {
                       <td className="colaborador-info">
                         <div className="colaborador-nombre">{colaborador.nombre}</div>
                       </td>
-                      <td className="unidad-info">
-                        <span className="unidad-badge">{colaborador.unidad}</span>
-                      </td>
+                      <td className="unidad-info">{colaborador.unidad}</td>
                       <td className="telefono-info">
                         <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                           {colaborador.telefono}
@@ -453,7 +460,7 @@ const Dashboard = () => {
           >
             <div className="nivel-info">
               <span className="nivel-icon">🟩</span>
-              <span className="nivel-nombre">3er NIVEL - ATENCIÓN FUERA DE HORARIO (FIJO)</span>
+              <span className="nivel-nombre">3er NIVEL - ATENCIÓN FUERA DE HORARIO</span>
               <span className="nivel-contador">({turnosActuales.nivel3.length})</span>
             </div>
           </div>
@@ -473,9 +480,7 @@ const Dashboard = () => {
                       <td className="colaborador-info">
                         <div className="colaborador-nombre">{colaborador.nombre}</div>
                       </td>
-                      <td className="unidad-info">
-                        <span className="unidad-badge">{colaborador.unidad}</span>
-                      </td>
+                      <td className="unidad-info">{colaborador.unidad}</td>
                       <td className="telefono-info">
                         <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                           {colaborador.telefono}
