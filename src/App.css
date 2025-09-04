@@ -210,21 +210,28 @@ body {
 /* Tabla ultra responsiva con breakpoints específicos */
 .turnos-tabla {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate; /* usar separate para permitir separadores verticales */
+  border-spacing: 0; /* sin espacio entre celdas */
   margin-top: 10px;
   font-size: 16px;
   overflow: hidden;
   table-layout: auto;
+  border: 1px solid #e6e9ef; /* borde exterior definido */
+  background-clip: padding-box;
 }
 
 .turnos-tabla th,
 .turnos-tabla td {
   padding: 12px 8px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e9edf2; /* línea horizontal sutil */
   word-wrap: break-word;
   vertical-align: top;
   font-size: 16px;
+}
+
+.turnos-tabla td:not(:last-child) {
+  border-right: 1px solid #f1f4f8; /* separador vertical entre celdas */
 }
 
 .turnos-tabla th {
@@ -235,10 +242,19 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
+  border-bottom: 2px solid #dfe6ee; /* encabezado más definido */
 }
 
 .turnos-tabla tbody tr:hover {
-  background-color: #f8f9fa;
+  background-color: #fbfdff; /* hover más sutil */
+}
+
+/* Alternado suave de filas para mejorar legibilidad */
+.turnos-tabla tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+.turnos-tabla tbody tr:nth-child(odd) {
+  background-color: #fbfcfe;
 }
 
 /* Breakpoints para tablas */
@@ -3211,6 +3227,15 @@ h3 {
   font-size: 16px;
   color: #2c3e50;
   line-height: 1.3;
+}
+
+/* Centrar los nombres de los colaboradores en las tablas (primera columna) */
+.turnos-tabla td:first-child .colaborador-nombre,
+.turnos-tabla th:first-child .colaborador-nombre,
+.card .turnos-tabla td:first-child .colaborador-nombre,
+.colaboradores-lista td:first-child .colaborador-nombre {
+  text-align: center;
+  display: block; /* asegurar que el text-align se aplique correctamente */
 }
 
 .colaborador-info {

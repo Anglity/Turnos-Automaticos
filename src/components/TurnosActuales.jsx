@@ -84,6 +84,20 @@ const TurnosActuales = () => {
     return { texto: 'Activo', clase: 'estado-activo', emoji: '✅' }
   }
 
+  // Mapeo de descripciones por unidad (igual que Dashboard)
+  const cargarDescripcion = (unidad) => {
+    switch ((unidad || '').trim()) {
+      case 'Infraestructura & Cloud':
+        return 'Para problemas con: plataforma, servidores, conectividad, o equipos de cómputo.'
+      case 'Comunicaciones':
+        return 'Para problemas con: red, flota, o telefonía fija.'
+      case 'Gestión de Datos':
+        return 'Para errores de sistema, bases de datos o recuperación de información.'
+      default:
+        return ''
+    }
+  }
+
   // Preparar colaboradores con rotación aplicada para mostrar
   const prepararColaboradoresConRotacion = () => {
     if (!turnosActuales) return { colaboradoresPorNivel: {}, colaboradoresVacaciones: [] }
@@ -424,13 +438,13 @@ const TurnosActuales = () => {
                 <div className="table-container responsivo">
                   <table className="turnos-tabla moderna">
                     <thead>
-                      <tr>
-                        <th style={{ textAlign: 'center' }}>👤 Colaborador</th>
-                        <th style={{ textAlign: 'center' }}>🏢 Unidad</th>
-                        <th style={{ textAlign: 'center' }}>📞 Teléfono</th>
-                        <th style={{ textAlign: 'center' }}>📅 Vacaciones</th>
-                        <th style={{ textAlign: 'center' }}>📊 Estado</th>
-                      </tr>
+              <tr>
+                <th style={{ textAlign: 'center' }}>👤 Colaborador</th>
+                <th style={{ textAlign: 'center' }}>🏢 Unidad</th>
+                <th style={{ textAlign: 'center' }}>📞 Teléfono</th>
+                <th style={{ textAlign: 'center' }}>📅 Vacaciones</th>
+                {/* Estado oculto */}
+              </tr>
                     </thead>
                     <tbody>
                       {colaboradoresVacaciones.map(colaborador => {
@@ -469,11 +483,7 @@ const TurnosActuales = () => {
                                 </div>
                               )}
                             </td>
-                            <td className="estado-info">
-                              <span className="estado-badge moderno estado-vacaciones">
-                                🏖️ Vacaciones
-                              </span>
-                            </td>
+                            {/* Estado oculto */}
                           </tr>
                         )
                       })}
@@ -512,7 +522,10 @@ const TurnosActuales = () => {
                           <th style={{ textAlign: 'center' }}>👤 Colaborador</th>
                           <th style={{ textAlign: 'center' }}>🏢 Unidad</th>
                           <th style={{ textAlign: 'center' }}>📞 Teléfono</th>
-                          <th style={{ textAlign: 'center' }}>📊 Estado</th>
+                          {/* Para el primer nivel sustituimos Estado por Descripción; para otros niveles simplemente ocultamos Estado */}
+                          {parseInt(nivel) === 1 ? (
+                            <th style={{ textAlign: 'center' }}>Descripción</th>
+                          ) : null}
                         </tr>
                       </thead>
                       <tbody>
@@ -543,11 +556,14 @@ const TurnosActuales = () => {
                                   {colaborador.telefono}
                                 </a>
                               </td>
-                              <td className="estado-info">
-                                <span className={`estado-badge moderno ${estado.clase}`}>
-                                  {estado.emoji} {estado.texto}
-                                </span>
-                              </td>
+                              {parseInt(nivel) === 1 ? (
+                                <td className="descripcion-info" style={{ maxWidth: '320px', textAlign: 'left' }}>
+                                  {cargarDescripcion(colaborador.unidad) || '—'}
+                                </td>
+                              ) : (
+                                /* Estado oculto para niveles distintos */
+                                null
+                              )}
                             </tr>
                           )
                         })}

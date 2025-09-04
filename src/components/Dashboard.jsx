@@ -157,6 +157,20 @@ const Dashboard = () => {
                       todosLosColaboradores.filter(c => c.esReemplazo).length
   const totalGeneral = (colaboradoresList || []).filter(c => c.activo).length
 
+  // Mapeo de descripciones por unidad (según lo indicado)
+  const cargarDescripcion = (unidad) => {
+    switch ((unidad || '').trim()) {
+      case 'Infraestructura & Cloud':
+        return 'Para problemas con: plataforma, servidores, conectividad, o equipos de cómputo.'
+      case 'Comunicaciones':
+        return 'Para problemas con: red, flota, o telefonía fija.'
+      case 'Gestión de Datos':
+        return 'Para errores de sistema, bases de datos o recuperación de información.'
+      default:
+        return ''
+    }
+  }
+
   return (
     <div>
       {/* Título del Dashboard */}
@@ -348,7 +362,7 @@ const Dashboard = () => {
                     <th>👤 Colaborador</th>
                     <th>🏢 Unidad</th>
                     <th>📞 Teléfono</th>
-                    <th>📊 Estado</th>
+                    <th>Descripción</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -372,20 +386,8 @@ const Dashboard = () => {
                           {colaborador.telefono}
                         </a>
                       </td>
-                      <td className="estado-info">
-                        {colaborador.enVacaciones ? (
-                          <span className="estado-badge moderno estado-vacaciones">
-                            🏖️ Vacaciones
-                          </span>
-                        ) : colaborador.esReemplazo ? (
-                          <span className="estado-badge moderno estado-reemplazo">
-                            ⬆️ Reemplazo
-                          </span>
-                        ) : (
-                          <span className="estado-badge moderno estado-activo">
-                            ✅ Activo
-                          </span>
-                        )}
+                      <td className="descripcion-info" style={{ maxWidth: '320px', textAlign: 'left' }}>
+                        {cargarDescripcion(colaborador.unidad) || '—'}
                       </td>
                     </tr>
                   ))}
@@ -415,7 +417,6 @@ const Dashboard = () => {
                     <th>👤 Colaborador</th>
                     <th>🏢 Unidad</th>
                     <th>📞 Teléfono</th>
-                    <th>📊 Estado</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -432,17 +433,7 @@ const Dashboard = () => {
                           {colaborador.telefono}
                         </a>
                       </td>
-                      <td className="estado-info">
-                        {colaborador.enVacaciones ? (
-                          <span className="estado-badge moderno estado-vacaciones">
-                            🏖️ Vacaciones
-                          </span>
-                        ) : (
-                          <span className="estado-badge moderno estado-activo">
-                            ✅ Activo
-                          </span>
-                        )}
-                      </td>
+                      {/* Columna Estado oculta según petición */}
                     </tr>
                   ))}
                 </tbody>
@@ -474,7 +465,6 @@ const Dashboard = () => {
                     <th>👤 Colaborador</th>
                     <th>🏢 Unidad</th>
                     <th>📞 Teléfono</th>
-                    <th>📊 Estado</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -491,17 +481,7 @@ const Dashboard = () => {
                           {colaborador.telefono}
                         </a>
                       </td>
-                      <td className="estado-info">
-                        {colaborador.enVacaciones ? (
-                          <span className="estado-badge moderno estado-vacaciones">
-                            🏖️ Vacaciones
-                          </span>
-                        ) : (
-                          <span className="estado-badge moderno estado-fijo">
-                            🔒 Fijo
-                          </span>
-                        )}
-                      </td>
+                      {/* Columna Estado oculta según petición */}
                     </tr>
                   ))}
                 </tbody>
