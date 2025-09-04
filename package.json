@@ -4,11 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
-    "dev:custom": "vite --port 8080",
+  "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+  "preview": "vite preview"
   },
   "dependencies": {
     "firebase": "^12.2.1",
