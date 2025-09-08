@@ -459,27 +459,22 @@ const TurnosActuales = () => {
                         
                         return (
                           <tr key={colaborador.id} className="fila-colaborador vacaciones-row">
-                            <td className="colaborador-info">
-                              <div className="colaborador-nombre">
-                                {colaborador.nombre}
-                                <div className="nivel-original">
-                                  <small>Nivel original: {colaborador.nivelActual}</small>
-                                </div>
-                              </div>
+                            <td className="tabla-dato">
+                              <span>{colaborador.nombre}</span>
                             </td>
-                            <td className="unidad-info">{colaborador.unidad}</td>
-                            <td className="telefono-info">
+                            <td className="tabla-dato" style={{ width: 'auto', maxWidth: '320px', textAlign: 'left', whiteSpace: 'nowrap' }}>{colaborador.unidad}</td>
+                            <td className="tabla-dato">
                               <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                                 {colaborador.telefono}
                               </a>
                             </td>
-                            <td className="periodo-vacaciones">
+                            <td className="tabla-dato">
                               {vacacionActual && (
-                                <div className="periodo-info">
-                                  <div>{new Date(vacacionActual.fechaInicio).toLocaleDateString('es-ES')}</div>
-                                  <div>hasta</div>
-                                  <div>{new Date(vacacionActual.fechaFin).toLocaleDateString('es-ES')}</div>
-                                </div>
+                                <span className="periodo-info">
+                                  <span>{new Date(vacacionActual.fechaInicio).toLocaleDateString('es-ES')}</span>
+                                  <span>hasta</span>
+                                  <span>{new Date(vacacionActual.fechaFin).toLocaleDateString('es-ES')}</span>
+                                </span>
                               )}
                             </td>
                             {/* Estado oculto */}
@@ -539,21 +534,19 @@ const TurnosActuales = () => {
                           const estado = obtenerEstado(colaborador)
                           return (
                             <tr key={colaborador.id} className="fila-colaborador">
-                              <td className="colaborador-info">
-                                <div className="tabla-dato">
-                                  {colaborador.nombre}
-                                  {/* Mostrar mensaje de reemplazo solo si NO es nivel 3 */}
-                                  {parseInt(nivel) !== 3 && colaborador.esReemplazo && (
-                                    <div className="reemplazo-indicator">
-                                      <small>⬆️ Reemplazo de {colaborador.reemplazaA}</small>
-                                    </div>
-                                  )}
-                                  {parseInt(nivel) !== 3 && colaborador.promocionPorVacaciones && (
-                                    <div className="reemplazo-indicator">
-                                      <small>⬆️ {colaborador.motivoPromocion}</small>
-                                    </div>
-                                  )}
-                                </div>
+                              <td className="tabla-dato">
+                                <span>{colaborador.nombre}</span>
+                                {/* Mostrar mensaje de reemplazo solo si NO es nivel 3 */}
+                                {parseInt(nivel) !== 3 && colaborador.esReemplazo && (
+                                  <span className="reemplazo-indicator">
+                                    <small>⬆️ Reemplazo de {colaborador.reemplazaA}</small>
+                                  </span>
+                                )}
+                                {parseInt(nivel) !== 3 && colaborador.promocionPorVacaciones && (
+                                  <span className="reemplazo-indicator">
+                                    <small>⬆️ {colaborador.motivoPromocion}</small>
+                                  </span>
+                                )}
                               </td>
                               <td className="tabla-dato">{colaborador.unidad}</td>
                               <td className="tabla-dato">

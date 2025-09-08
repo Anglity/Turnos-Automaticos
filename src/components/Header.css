@@ -1,3 +1,74 @@
+
+.turnos-tabla.moderna {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #b0b8c1;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.turnos-tabla.moderna th {
+  background: #eaf1fb;
+  color: #1a2332;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 12px 14px;
+  border: 1px solid #b0b8c1;
+  text-align: center;
+  vertical-align: middle;
+}
+.turnos-tabla.moderna th:not(:last-child),
+.turnos-tabla.moderna td:not(:last-child) {
+  border-right: 2px solid #b0b8c1;
+}
+
+.turnos-tabla.moderna td {
+  padding: 12px 14px;
+  font-size: 18px;
+  color: #222e3a;
+  border: 1px solid #b0b8c1;
+  background: #fff;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.turnos-tabla.moderna tr:hover td {
+  background: #f3f6fa;
+}
+
+.table-container.responsivo {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.turnos-tabla.moderna th {
+  background: linear-gradient(90deg, #e0e7ef 0%, #f1f5f9 100%);
+  color: #1a2332;
+  font-size: 21px;
+  font-weight: 700;
+  padding: 16px 20px;
+  border-bottom: 2px solid #dbeafe;
+  text-align: left;
+}
+
+.turnos-tabla.moderna tr {
+  transition: background 0.2s;
+}
+
+.turnos-tabla.moderna tr:hover {
+  background: #e3e8ee;
+}
+
+.turnos-tabla.moderna td {
+  /* Hereda de .tabla-dato */
+}
+
+.table-container.responsivo {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
 /* Unificación de estilo para celdas de tabla de datos */
 
 
