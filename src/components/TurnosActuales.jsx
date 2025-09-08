@@ -535,12 +535,13 @@ const TurnosActuales = () => {
                               <td className="colaborador-info">
                                 <div className="colaborador-nombre">
                                   {colaborador.nombre}
-                                  {colaborador.esReemplazo && (
+                                  {/* Mostrar mensaje de reemplazo solo si NO es nivel 3 */}
+                                  {parseInt(nivel) !== 3 && colaborador.esReemplazo && (
                                     <div className="reemplazo-indicator">
                                       <small>⬆️ Reemplazo de {colaborador.reemplazaA}</small>
                                     </div>
                                   )}
-                                  {colaborador.promocionPorVacaciones && (
+                                  {parseInt(nivel) !== 3 && colaborador.promocionPorVacaciones && (
                                     <div className="reemplazo-indicator">
                                       <small>⬆️ {colaborador.motivoPromocion}</small>
                                     </div>

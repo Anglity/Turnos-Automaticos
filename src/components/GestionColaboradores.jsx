@@ -138,19 +138,22 @@ const GestionColaboradores = () => {
   };
 
   const guardarColaborador = async () => {
+
     if (!formulario.nombre.trim() || !formulario.unidad.trim() || !formulario.telefono.trim()) {
       alert('Por favor, completa todos los campos obligatorios.');
       return;
     }
 
+    // Validación especial para nivel 3: no mostrar mensaje de reemplazo
+    if (formulario.nivelActual === 3) {
+      // Si hay alguna lógica/mensaje de reemplazo, se omite para nivel 3
+      // Aquí podrías limpiar flags relacionados si existen
+    }
+
     try {
       if (modoEdicion) {
         // Editar colaborador existente
-        const colaboradorActualizado = await actualizarColaborador({
-          ...formulario,
-          id: colaboradorEditando.id
-        });
-        
+        const colaboradorActualizado = await actualizarColaborador(colaboradorEditando.id, formulario);
         if (colaboradorActualizado) {
           setColaboradores(prev => 
             prev.map(c => c.id === colaboradorEditando.id ? colaboradorActualizado : c)
