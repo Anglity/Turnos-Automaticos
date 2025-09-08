@@ -528,12 +528,19 @@ const TurnosActuales = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {colaboradoresNivel.map(colaborador => {
+                        {[...colaboradoresNivel]
+                          .sort((a, b) => {
+                            // Si uno de los colaboradores es VLADY, lo manda al final
+                            if (a.nombre?.toUpperCase().includes('VLADY')) return 1;
+                            if (b.nombre?.toUpperCase().includes('VLADY')) return -1;
+                            return 0;
+                          })
+                          .map(colaborador => {
                           const estado = obtenerEstado(colaborador)
                           return (
                             <tr key={colaborador.id} className="fila-colaborador">
                               <td className="colaborador-info">
-                                <div className="colaborador-nombre">
+                                <div className="tabla-dato">
                                   {colaborador.nombre}
                                   {/* Mostrar mensaje de reemplazo solo si NO es nivel 3 */}
                                   {parseInt(nivel) !== 3 && colaborador.esReemplazo && (
@@ -548,18 +555,17 @@ const TurnosActuales = () => {
                                   )}
                                 </div>
                               </td>
-                              <td className="unidad-info">{colaborador.unidad}</td>
-                              <td className="telefono-info">
+                              <td className="tabla-dato">{colaborador.unidad}</td>
+                              <td className="tabla-dato">
                                 <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                                   {colaborador.telefono}
                                 </a>
                               </td>
                               {parseInt(nivel) === 1 ? (
-                                <td className="descripcion-info" style={{ maxWidth: '320px', textAlign: 'left' }}>
+                                <td className="tabla-dato" style={{ maxWidth: '320px', textAlign: 'left' }}>
                                   {cargarDescripcion(colaborador.unidad) || '—'}
                                 </td>
                               ) : (
-                                /* Estado oculto para niveles distintos */
                                 null
                               )}
                             </tr>

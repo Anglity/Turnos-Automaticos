@@ -1,3 +1,22 @@
+/* Unificación de estilo para celdas de tabla de datos */
+
+
+.tabla-dato {
+  padding: 14px 22px;
+  font-size: 20px;
+  color: #1a2332;
+  background: linear-gradient(90deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1.5px solid #dbeafe;
+  border-radius: 8px;
+  text-align: left;
+  vertical-align: middle;
+  box-shadow: 0 1px 4px rgba(60, 80, 120, 0.04);
+  transition: background 0.2s;
+}
+
+.tabla-dato:hover {
+  background: linear-gradient(90deg, #e0e7ef 0%, #e3e8ee 100%);
+}
 /* Estilos para el Header */
 .hide-xs {
   display: inline;
