@@ -377,28 +377,30 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {turnosActuales.nivel1.map((colaborador) => (
+                  {[...turnosActuales.nivel1].sort((a, b) => {
+                    if (a.nombre?.toUpperCase().includes('VLADY')) return 1;
+                    if (b.nombre?.toUpperCase().includes('VLADY')) return -1;
+                    return 0;
+                  }).map((colaborador) => (
                     <tr key={colaborador.id} className="fila-colaborador">
-                      <td className="colaborador-info">
-                        <div className="colaborador-nombre">
-                          {colaborador.nombre}
-                          {colaborador.esReemplazo && (
-                            <div className="reemplazo-indicator">
-                              <small>⬆️ Reemplazo de {colaborador.reemplazaA}</small>
-                            </div>
-                          )}
-                        </div>
+                      <td className="tabla-dato">
+                        {colaborador.nombre}
+                        {colaborador.esReemplazo && (
+                          <div className="reemplazo-indicator">
+                            <small>⬆️ Reemplazo de {colaborador.reemplazaA}</small>
+                          </div>
+                        )}
                       </td>
-                      <td className="unidad-info">{colaborador.unidad}</td>
-                      <td className="telefono-info">
+                      <td className="tabla-dato">{colaborador.unidad}</td>
+                      <td className="tabla-dato">
                         <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                           {colaborador.telefono}
                         </a>
                       </td>
-                      <td className="descripcion-info" style={{ maxWidth: '320px', textAlign: 'left' }}>
+                      <td className="tabla-dato" style={{ maxWidth: '320px', textAlign: 'left' }}>
                         {cargarDescripcion(colaborador.unidad) || '—'}
                       </td>
-                    </tr>
+                  </tr>
                   ))}
                 </tbody>
               </table>
@@ -429,18 +431,19 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {turnosActuales.nivel2.map((colaborador) => (
+                  {[...turnosActuales.nivel2].sort((a, b) => {
+                    if (a.nombre?.toUpperCase().includes('VLADY')) return 1;
+                    if (b.nombre?.toUpperCase().includes('VLADY')) return -1;
+                    return 0;
+                  }).map((colaborador) => (
                     <tr key={colaborador.id} className="fila-colaborador">
-                      <td className="colaborador-info">
-                        <div className="colaborador-nombre">{colaborador.nombre}</div>
-                      </td>
-                      <td className="unidad-info">{colaborador.unidad}</td>
-                      <td className="telefono-info">
+                      <td className="tabla-dato">{colaborador.nombre}</td>
+                      <td className="tabla-dato">{colaborador.unidad}</td>
+                      <td className="tabla-dato">
                         <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                           {colaborador.telefono}
                         </a>
                       </td>
-                      {/* Columna Estado oculta según petición */}
                     </tr>
                   ))}
                 </tbody>
@@ -475,18 +478,19 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {turnosActuales.nivel3.map((colaborador) => (
+                  {[...turnosActuales.nivel3].sort((a, b) => {
+                    if (a.nombre?.toUpperCase().includes('VLADY')) return 1;
+                    if (b.nombre?.toUpperCase().includes('VLADY')) return -1;
+                    return 0;
+                  }).map((colaborador) => (
                     <tr key={colaborador.id} className="fila-colaborador">
-                      <td className="colaborador-info">
-                        <div className="colaborador-nombre">{colaborador.nombre}</div>
-                      </td>
-                      <td className="unidad-info">{colaborador.unidad}</td>
-                      <td className="telefono-info">
+                      <td className="tabla-dato">{colaborador.nombre}</td>
+                      <td className="tabla-dato">{colaborador.unidad}</td>
+                      <td className="tabla-dato">
                         <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                           {colaborador.telefono}
                         </a>
                       </td>
-                      {/* Columna Estado oculta según petición */}
                     </tr>
                   ))}
                 </tbody>

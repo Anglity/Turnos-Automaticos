@@ -535,7 +535,7 @@ const GenerarTurnos = () => {
                         <th style={{ textAlign: 'center' }}>📊 Estado</th>
                       </tr>
                     </thead>
-                    <tbody>
+                        <tbody>
                       {colaboradoresVacaciones.map(colaborador => {
                         const fechaParaVacaciones = turnosGenerados.fechaConsulta || new Date()
                         
@@ -554,29 +554,25 @@ const GenerarTurnos = () => {
                         
                         const estado = obtenerEstado(colaboradorConEstado, fechaParaVacaciones)
                         
-                        return (
+                          return (
                           <tr key={colaborador.id} className="fila-colaborador vacaciones-row">
-                            <td className="colaborador-info">
-                              <div className="colaborador-nombre">
-                                {colaborador.nombre}
-                              </div>
-                            </td>
-                            <td className="unidad-info">{colaborador.unidad}</td>
-                            <td className="telefono-info">
+                            <td className="tabla-dato">{colaborador.nombre}</td>
+                            <td className="tabla-dato" style={{ width: 'auto', maxWidth: '320px', textAlign: 'left', whiteSpace: 'nowrap' }}>{colaborador.unidad}</td>
+                            <td className="tabla-dato">
                               <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                                 {colaborador.telefono}
                               </a>
                             </td>
-                            <td className="periodo-vacaciones">
-                              {vacacionActual && (
-                                <div className="periodo-info">
-                                  <div>{new Date(vacacionActual.fechaInicio).toLocaleDateString('es-ES')}</div>
-                                  <div>hasta</div>
-                                  <div>{new Date(vacacionActual.fechaFin).toLocaleDateString('es-ES')}</div>
-                                </div>
-                              )}
-                            </td>
-                            <td className="estado-info">
+                                <td className="tabla-dato">
+                                  {vacacionActual && (
+                                    <span className="periodo-info">
+                                      <span>{new Date(vacacionActual.fechaInicio).toLocaleDateString('es-ES')}</span>
+                                      <span>hasta</span>
+                                      <span>{new Date(vacacionActual.fechaFin).toLocaleDateString('es-ES')}</span>
+                                    </span>
+                                  )}
+                                </td>
+                            <td className="tabla-dato">
                               <span className={`estado-badge moderno ${estado.clase}`}>
                                 {estado.emoji} {estado.texto}
                               </span>
@@ -623,32 +619,34 @@ const GenerarTurnos = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {colaboradoresNivel.map(colaborador => {
+                          {[...colaboradoresNivel].sort((a, b) => {
+                            if (a.nombre?.toUpperCase().includes('VLADY')) return 1;
+                            if (b.nombre?.toUpperCase().includes('VLADY')) return -1;
+                            return 0;
+                          }).map(colaborador => {
                             const estado = obtenerEstado(colaborador, turnosGenerados.fechaConsulta)
                             return (
                               <tr key={colaborador.id} className="fila-colaborador">
-                                <td className="colaborador-info">
-                                  <div className="colaborador-nombre">
-                                    {colaborador.nombre}
-                                    {colaborador.esReemplazo && (
-                                      <div className="reemplazo-indicator">
-                                        <small>⬆️ Reemplazo de {colaborador.reemplazaA}</small>
-                                      </div>
-                                    )}
-                                    {colaborador.promocionPorVacaciones && (
-                                      <div className="reemplazo-indicator">
-                                        <small>⬆️ {colaborador.motivoPromocion}</small>
-                                      </div>
-                                    )}
-                                  </div>
+                                <td className="tabla-dato">
+                                  {colaborador.nombre}
+                                  {parseInt(nivel) !== 3 && colaborador.esReemplazo && (
+                                    <div className="reemplazo-indicator">
+                                      <small>⬆️ Reemplazo de {colaborador.reemplazaA}</small>
+                                    </div>
+                                  )}
+                                  {parseInt(nivel) !== 3 && colaborador.promocionPorVacaciones && (
+                                    <div className="reemplazo-indicator">
+                                      <small>⬆️ {colaborador.motivoPromocion}</small>
+                                    </div>
+                                  )}
                                 </td>
-                                <td className="unidad-info">{colaborador.unidad}</td>
-                                <td className="telefono-info">
+                                <td className="tabla-dato" style={{ width: 'auto', maxWidth: '320px', textAlign: 'left', whiteSpace: 'nowrap' }}>{colaborador.unidad}</td>
+                                <td className="tabla-dato">
                                   <a href={`tel:${colaborador.telefono}`} className="telefono-link">
                                     {colaborador.telefono}
                                   </a>
                                 </td>
-                                <td className="estado-info">
+                                <td className="tabla-dato">
                                   <span className={`estado-badge moderno ${estado.clase}`}>
                                     {estado.emoji} {estado.texto}
                                   </span>
