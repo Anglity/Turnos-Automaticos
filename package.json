@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-  "dev": "vite",
+    "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-  "preview": "vite preview"
+    "preview": "vite preview",
+  "check:fecha-ref": "node ./scripts/checkFechaRef.js"
   },
   "dependencies": {
     "firebase": "^12.2.1",

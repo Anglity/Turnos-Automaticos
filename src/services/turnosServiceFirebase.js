@@ -260,8 +260,10 @@ export const generarTurnosPorSemana = async (fechaConsulta) => {
     const colaboradores = await cargarColaboradores();
     const config = await cargarConfiguracion();
     
-  // Ajuste: Usar '2025-08-25' como referencia para que la semana del 1 al 7 de septiembre sea la semana 2
-  const numeroSemana = calcularSemanaDeRotacion(fechaConsulta, '2025-08-25');
+  // Usar la fecha de referencia de la configuración para mantener consistencia
+  // Si no existe, caerá al valor por defecto '2025-08-26' (definido en firebaseService)
+  const fechaReferenciaConfig = config?.fechaReferencia || '2025-08-26';
+  const numeroSemana = calcularSemanaDeRotacion(fechaConsulta, fechaReferenciaConfig);
     const grupoEnNivel1 = determinarGrupoEnNivel1(numeroSemana, config.grupoInicialNivel1);
     
     // Separar colaboradores por grupo y nivel

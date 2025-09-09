@@ -172,11 +172,11 @@ const Dashboard = () => {
   const cargarDescripcion = (unidad) => {
     switch ((unidad || '').trim()) {
       case 'Infraestructura & Cloud':
-        return 'Para problemas con: plataforma, servidores, Y equipos de cómputo.'
+        return 'Para errores con aplicativos y servicios.'
       case 'Comunicaciones':
         return 'Para problemas con: red, flota, o telefonía fija.'
       case 'Gestión de Datos':
-        return 'Para errores de sistema, bases de datos o recuperación de información.'
+        return 'Para errores del sistema core, cierre operativo o recuperación de información.'
       default:
         return ''
     }
