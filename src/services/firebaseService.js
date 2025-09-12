@@ -11,19 +11,84 @@ import {
   orderBy,
   writeBatch,
   getDoc,
-  onSnapshot
+  onSnapshot,
+  setDoc
 } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 import eventBus, { EVENTS } from '../utils/eventBus';
+import { calcularSemanaDeRotacion, obtenerLunesDelamSemana } from '../utils/fechas';
 
 class FirebaseService {
   constructor() {
     console.log('🔥 Firebase Service inicializado');
     this.colaboradoresListener = null;
     this.vacacionesListener = null;
-    this.inicializarDatos();
-    this.setupAutoCleanup();
+    // Nota: desactivamos la inicialización automática y la limpieza automática inicial
+    // para evitar reinicios o eliminaciones no deseadas en entornos reales.
+    // this.inicializarDatos(); // deshabilitado intencionalmente
+    // this.setupAutoCleanup(); // deshabilitado por seguridad; activar manualmente si se desea
     this.inicializarListeners();
+  }
+
+  // Permite activar la limpieza automática manualmente si el equipo lo desea
+  activarLimpiezaAutomatica() {
+    return this.setupAutoCleanup();
+  }
+
+  // Programar actualización semanal de la configuración 'semanaActual'
+  // NO se activa automáticamente; llamar a `activarActualizacionSemanal()` para habilitar.
+  activarActualizacionSemanal() {
+    // Calcular timeout hasta el próximo lunes 00:00 hora local
+    const ahora = new Date();
+    const dia = ahora.getDay();
+    const diasHastaLunes = (8 - dia) % 7; // días restantes hasta el próximo lunes
+    const proximoLunes = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate() + diasHastaLunes);
+    proximoLunes.setHours(0, 0, 0, 0);
+
+    const msHastaProximoLunes = proximoLunes.getTime() - ahora.getTime();
+
+    // Esperar hasta el próximo lunes 00:00 y luego ejecutar cada 7 días
+    setTimeout(() => {
+      this._actualizarSemanaActual();
+      // Ejecutar semanalmente
+      this._semanaInterval = setInterval(() => this._actualizarSemanaActual(), 7 * 24 * 60 * 60 * 1000);
+    }, msHastaProximoLunes);
+
+    return true;
+  }
+
+  // Desactivar la actualización semanal si está activa
+  desactivarActualizacionSemanal() {
+    if (this._semanaInterval) {
+      clearInterval(this._semanaInterval);
+      this._semanaInterval = null;
+      return true;
+    }
+    return false;
+  }
+
+  async _actualizarSemanaActual() {
+    try {
+      const configRef = doc(db, 'configuracion', 'general');
+      const configSnap = await getDoc(configRef);
+      let fechaReferencia = '2025-08-26';
+      if (configSnap.exists()) {
+        const data = configSnap.data();
+        if (data.fechaReferencia) fechaReferencia = data.fechaReferencia;
+      }
+
+      // Calcular semana usando el lunes de hoy
+      const hoy = new Date();
+      const lunesHoy = obtenerLunesDelamSemana(hoy);
+      const numeroSemana = calcularSemanaDeRotacion(lunesHoy, fechaReferencia);
+
+      await updateDoc(configRef, { semanaActual: numeroSemana, updatedAt: new Date() });
+      console.log('🔁 Semana actual actualizada automáticamente a:', numeroSemana);
+      // Emitir evento para actualizar la UI
+      window.dispatchEvent(new CustomEvent('configurationUpdated'));
+    } catch (error) {
+      console.error('❌ Error actualizando semanaActual automáticamente:', error);
+    }
   }
 
   // 🔄 Inicializar listeners en tiempo real
@@ -112,8 +177,8 @@ class FirebaseService {
       await batch.commit();
       console.log(`🗑️ Eliminados ${snapshot.docs.length} colaboradores duplicados`);
       
-      // Recrear datos limpios
-      await this.crearDatosIniciales();
+  // NOTA: No recreamos automáticamente los datos para evitar reinicios indeseados.
+  // El equipo debe decidir cuándo restaurar datos iniciales manualmente.
     } catch (error) {
       console.error('Error limpiando duplicados:', error);
     }
@@ -146,21 +211,24 @@ class FirebaseService {
     await batch.commit();
     
     // Configuración inicial
+    // Garantizar un único documento de configuración con id 'general'
     const configRef = doc(db, 'configuracion', 'general');
-    await updateDoc(configRef, {
-      fechaReferencia: '2025-08-26',
-      grupoInicialNivel1: 'A',
-      semanaActual: 2,
-      updatedAt: new Date()
-    }).catch(async () => {
-      // Si no existe, crear
-      await addDoc(collection(db, 'configuracion'), {
+    try {
+      await updateDoc(configRef, {
         fechaReferencia: '2025-08-26',
         grupoInicialNivel1: 'A',
-        semanaActual: 2,
+        semanaActual: 3,
+        updatedAt: new Date()
+      });
+    } catch (e) {
+      // Si no existe, crear con setDoc para asegurar el id 'general'
+      await setDoc(configRef, {
+        fechaReferencia: '2025-08-26',
+        grupoInicialNivel1: 'A',
+        semanaActual: 3,
         createdAt: new Date()
       });
-    });
+    }
 
     console.log('✅ Datos iniciales creados');
   }
@@ -341,7 +409,7 @@ class FirebaseService {
         return {
           fechaReferencia: '2025-08-26', // SIEMPRE USAR ESTA FECHA
           grupoInicialNivel1: 'A',
-          semanaActual: 2
+          semanaActual: 3
         };
     } catch (error) {
       console.error('Error obteniendo configuración:', error);

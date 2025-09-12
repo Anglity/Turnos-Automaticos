@@ -16,7 +16,7 @@ class MockFirebaseService {
       configuracion: {
         fechaReferencia: '2025-08-26',
         grupoInicialNivel1: 'A',
-        semanaActual: 2
+        semanaActual: 3
       }
     };
     this.nextId = 9;

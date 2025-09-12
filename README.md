@@ -65,6 +65,10 @@ Notas
 - No use `npm run dev` en producción; es solo para desarrollo.
 - Este flujo asume que la compilación se hace en una máquina segura (CI o local) y solo se transfieren los assets estáticos al servidor.
 
+Seguridad y comportamiento por defecto
+- La inicialización automática de datos y la limpieza automática están desactivadas por seguridad en el servicio Firebase local.
+- Si deseas activar la limpieza automática manualmente, llama al método `activarLimpiezaAutomatica()` expuesto en el servicio (`src/services/firebaseService.js`).
+
 ---
 
 Instrucciones enfocadas exclusivamente en desplegar la aplicación en un servidor con Nginx.

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { generarTurnosPorSemana, aplicarReemplazos, cargarColaboradores, cargarVacaciones } from '../services/turnosServiceFirebase'
-import { obtenerLunesDelamSemana, obtenerDomingoDeLaSemana } from '../utils/fechas'
+import { obtenerLunesDelamSemana, obtenerDomingoDeLaSemana, formatearRangoSemana } from '../utils/fechas'
 import html2canvas from 'html2canvas'
 
 const TurnosActuales = () => {
@@ -421,6 +421,23 @@ const TurnosActuales = () => {
       ) : (
         /* Contenedor específico para captura solo de niveles */
         <div className="niveles-container">
+          {/* Label grande y centrado con el rango de la semana (fuera de tablas) */}
+          <div style={{ display: 'flex', justifyContent: 'center', margin: '14px 0' }}>
+            <div className="turnos-fecha-centro" style={{
+              textAlign: 'center',
+              fontSize: '34px',
+              fontWeight: 800,
+              padding: '14px 28px',
+              background: '#fff8e1',
+              border: '2px solid #ffd54f',
+              borderRadius: '10px',
+              boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+              color: '#333',
+              display: 'inline-block'
+            }}>
+              {formatearRangoSemana(new Date(turnosActuales?.fechaInicio), new Date(turnosActuales?.fechaFin))}
+            </div>
+          </div>
           {/* Tabla especial para colaboradores de vacaciones */}
           {colaboradoresVacaciones.length > 0 && (
             <div className="nivel-section vacaciones-section">
@@ -434,7 +451,6 @@ const TurnosActuales = () => {
                   <span className="nivel-contador">({colaboradoresVacaciones.length})</span>
                 </div>
               </div>
-              
               <div className="nivel-content">
                 <div className="table-container responsivo">
                   <table className="turnos-tabla moderna">

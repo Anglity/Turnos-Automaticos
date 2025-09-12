@@ -146,9 +146,9 @@ export const generarTurnos = async (fechaInicio, fechaFin) => {
     const fechaInicial = new Date(fechaInicio);
     const fechaFinal = new Date(fechaFin);
     
-    // Configurar que la semana actual es la semana 2 (1 de septiembre)
-    const hoy = new Date('2025-09-01'); // 1 de septiembre = semana 2
-    let semanaActual = 2;
+  // Forzar semana actual a 3 para coincidir con la rotación deseada
+  const hoy = new Date('2025-08-26'); // referencia alineada a 2025-08-26
+  let semanaActual = 3;
     
     console.log('📅 Semana actual configurada:', semanaActual);
     
