@@ -72,3 +72,69 @@ Seguridad y comportamiento por defecto
 ---
 
 Instrucciones enfocadas exclusivamente en desplegar la aplicación en un servidor con Nginx.
+
+Sección: Actualizar `semanaActual` automáticamente
+-----------------------------------------------
+
+Se agregó un script de línea de comandos que calcula la "semana de rotación" (usando la lógica del proyecto) y actualiza el documento `configuracion/general` en Firestore.
+
+Ubicación: `scripts/updateSemanaActual.mjs`
+
+Uso local (modo prueba, no toca Firebase):
+
+```powershell
+node ./scripts/updateSemanaActual.mjs --dry
+```
+
+Uso en producción (requiere credenciales de servicio de Firebase):
+
+1. Crear una cuenta de servicio en la consola de Firebase y descargar el JSON de credenciales.
+2. En el servidor donde se ejecutará el script, exportar la variable de entorno `GOOGLE_APPLICATION_CREDENTIALS` apuntando al JSON:
+
+```powershell
+#$env:GOOGLE_APPLICATION_CREDENTIALS='C:\path\to\serviceAccountKey.json'  # PowerShell
+export GOOGLE_APPLICATION_CREDENTIALS=/path/to/serviceAccountKey.json # bash
+```
+
+3. Ejecutar:
+
+```powershell
+npm run update:semana
+```
+
+Programar ejecución semanal (ejemplos):
+
+- Linux (cron, cada lunes 00:05):
+
+```
+5 0 * * 1 cd /path/to/Turnos\ Automaticos && /usr/bin/node ./scripts/updateSemanaActual.mjs
+```
+
+- Windows (Task Scheduler): crear tarea que ejecute `node` con argumento `C:\path\to\Turnos Automaticos\scripts\updateSemanaActual.mjs` cada lunes 00:05.
+
+Notas y recomendaciones
+- El script intenta usar `firebase-admin` para actualizar Firestore. Asegúrate de instalar dependencias en el servidor (`npm ci`) y de proporcionar las credenciales.
+- Antes de programar, prueba con `--dry` para validar el número de semana calculado.
+- Asegúrate de que el documento `configuracion/general` existe; si no, el script creará/mergeará el campo `semanaActual`.
+
+Automatizar con GitHub Actions
+--------------------------------
+
+Si mantienes este repositorio en GitHub, puedes programar la ejecución semanal sin necesidad de un servidor propio.
+
+1) Crear secret en tu repositorio GitHub:
+    - Nombre: `FIREBASE_SERVICE_ACCOUNT`
+    - Valor: el JSON completo de la cuenta de servicio (copiar/pegar el contenido del archivo `serviceAccountKey.json`).
+
+2) El workflow está en `.github/workflows/update-semana.yml` y se ejecuta cada lunes a las `00:05 UTC` (ajusta cron si necesitas otra hora/zonahoraria).
+
+Nota: el workflow fue actualizado para ejecutarse cada lunes a las `00:00 UTC` (medianoche). Si necesitas otra hora local, convierte a UTC o cambia la expresión `cron` en `.github/workflows/update-semana.yml`.
+
+3) También puedes dispararlo manualmente desde la pestaña "Actions" -> seleccionar "Actualizar semana de rotación" -> "Run workflow".
+
+Logs y seguridad
+-----------------
+- GitHub Actions manejará el secreto y solo lo escribirá en un archivo temporal para el job. Revisa las ejecuciones en la pestaña Actions para ver logs y resultados.
+- No subas nunca tu JSON de credenciales al repositorio.
+
+

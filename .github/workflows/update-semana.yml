@@ -1,0 +1,35 @@
+name: Actualizar semana de rotación
+
+on:
+  schedule:
+  # Cada lunes a las 00:00 UTC (medianoche). Ajusta si quieres otra hora/zonahoraria
+  - cron: '0 0 * * 1'
+  workflow_dispatch: {}
+
+jobs:
+  update-week:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure Firebase credentials
+        if: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT" > ./serviceAccountKey.json
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Run update script
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.workspace }}/serviceAccountKey.json
+        run: |
+          node ./scripts/updateSemanaActual.mjs
