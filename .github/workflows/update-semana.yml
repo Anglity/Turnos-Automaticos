@@ -9,6 +9,8 @@ on:
 jobs:
   update-week:
     runs-on: ubuntu-latest
+    env:
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,11 +24,13 @@ jobs:
         run: npm ci
 
       - name: Configure Firebase credentials
-        if: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}
         run: |
-          echo "$FIREBASE_SERVICE_ACCOUNT" > ./serviceAccountKey.json
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          if [ -n "$FIREBASE_SERVICE_ACCOUNT" ]; then
+            echo "$FIREBASE_SERVICE_ACCOUNT" > ./serviceAccountKey.json
+            echo "🔒 Firebase credentials written to serviceAccountKey.json"
+          else
+            echo "ℹ️ FIREBASE_SERVICE_ACCOUNT secret not provided; skipping credential write"
+          fi
 
       - name: Run update script
         env:
